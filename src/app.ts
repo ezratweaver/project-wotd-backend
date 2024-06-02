@@ -1,5 +1,6 @@
 import Fastify from 'fastify'
 import dotenv from 'dotenv'
+import userRoutes from './modules/user/userRoute'
 
 dotenv.config()
 
@@ -13,6 +14,8 @@ server.get('/', async () => {
 })
 
 const main = async () => {
+  server.register(userRoutes)
+
   try {
     await server.listen({ port, host })
     console.log('Server ready at http://localhost:3000')
