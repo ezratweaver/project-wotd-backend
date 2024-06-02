@@ -8,6 +8,10 @@ const host = process.env.API_HOST ?? '0.0.0.0'
 
 const server = Fastify()
 
+server.get('/', async () => {
+  return { status: 'OK' }
+})
+
 const main = async () => {
   try {
     await server.listen({ port, host })
