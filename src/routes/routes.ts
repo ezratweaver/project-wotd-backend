@@ -1,13 +1,8 @@
-import { server } from '../app'
-import fetchWOTD from './apis/fetchWOTD'
+import { server } from "../app";
+import healthCheck from "./healthCheck";
 
 const registerRoutes = () => {
-  // Auth Routes
-  void server.register((server) => {
-    server.register(fetchWOTD)
-  })
+  server.register(healthCheck);
+};
 
-  // Public Routes
-}
-
-export default registerRoutes
+export default registerRoutes;
