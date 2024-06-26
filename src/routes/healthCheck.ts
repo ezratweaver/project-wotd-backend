@@ -1,8 +1,19 @@
-import { FastifyInstance, FastifyPluginOptions } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+
+const url = "/";
+const method = "GET";
+
+const handler = async (request: FastifyRequest, reply: FastifyReply) => {
+  return reply.status(200).send({
+    state: "online",
+  });
+};
 
 const healthCheck = async (fastify: FastifyInstance) => {
-  fastify.get("/", async () => {
-    return { status: "OK" };
+  fastify.route({
+    method,
+    handler,
+    url,
   });
 };
 
