@@ -2,7 +2,11 @@
   "name": "wotd-api",
   "version": "0.1",
   "scripts": {
-    "start": "tsnd --respawn --transpile-only --exit-child src/app.ts"
+    "start": "tsnd --respawn --transpile-only --exit-child src/app.ts",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "prisma": {
+    "schema": "prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^5.16.1",
