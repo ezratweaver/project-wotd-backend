@@ -1,0 +1,7 @@
+model User {
+  userKey     Int      @id @default(autoincrement())
+  email       String   @unique
+  firstName   String
+  password    String
+  createdDate DateTime @default(now())
+}
