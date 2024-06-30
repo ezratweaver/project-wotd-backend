@@ -1,15 +1,7 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { $ref } from "../../app";
 import prisma from "../../database";
-
-export const signUpRequestBody = z.object({
-  email: z.string().email(),
-  firstName: z.string(),
-  password: z.string(),
-});
-
-type SignUpRequestBody = z.infer<typeof signUpRequestBody>;
+import SignUpRequestBody from "../../schemas/SignUpRequestBody";
 
 const url = "/signup";
 const method = "POST";

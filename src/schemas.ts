@@ -1,4 +1,4 @@
-import { signUpRequestBody } from "./routes/auth/signUp";
+import { signUpRequestBody } from "./schemas/SignUpRequestBody";
 
 const schemas = {
   signUpRequestBody,
