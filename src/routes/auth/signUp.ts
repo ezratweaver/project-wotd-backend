@@ -21,9 +21,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const response = await prisma.user.findUnique({ where: { email } });
 
   if (response) {
-    return reply
-      .status(402)
-      .send({ result: "Fail", message: "Email is already in use." });
+    return reply.status(409).send({
+      result: "Conflict",
+      message: "Email is already in use.",
+    });
   }
 
   await prisma.user.create({
@@ -34,9 +35,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  return reply
-    .status(201)
-    .send({ result: "Success", message: "New user was created successfully." });
+  return reply.status(201).send({
+    result: "Success",
+    message: "New user was created successfully.",
+  });
 };
 
 const signUp = async (fastify: FastifyInstance) => {

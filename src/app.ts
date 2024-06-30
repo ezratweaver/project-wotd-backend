@@ -1,4 +1,4 @@
-import Fastify, { FastifyReply, FastifyRequest } from "fastify";
+import Fastify, { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
@@ -19,12 +19,19 @@ export const buildServer = async () => {
   });
 
   server.setErrorHandler(
-    (error: Error, request: FastifyRequest, reply: FastifyReply) => {
-      console.error("\n\n", error, "\n\n");
-      return reply.status(500).send({
-        result: "Internal Server Error",
-        message: "An internal server error has occured.",
-      });
+    (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
+      switch (error.code) {
+        case "FST_ERR_VALIDATION":
+          return reply.status(400).send({
+            result: "Bad Request",
+            message: error.message,
+          });
+        default:
+          return reply.status(500).send({
+            result: "Internal Server Error",
+            message: "An internal server error has occured.",
+          });
+      }
     },
   );
 
