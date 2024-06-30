@@ -1,4 +1,9 @@
-import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import {
+  FastifyInstance,
+  FastifyReply,
+  FastifyRequest,
+  FastifySchema,
+} from "fastify";
 import { $ref } from "../../app";
 import prisma from "../../database";
 import SignUpRequestBody from "../../schemas/SignUpRequestBody";
@@ -6,15 +11,22 @@ import SignUpRequestBody from "../../schemas/SignUpRequestBody";
 const url = "/signup";
 const method = "POST";
 const schema = {
-  response: {
-    201: {},
-  },
-};
+  operationId: "signUp",
+  tags: ["Authentication"],
+} as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { email, firstName, password } = request.body as SignUpRequestBody;
 
-  prisma.user.create({
+  const response = await prisma.user.findUnique({ where: { email } });
+
+  if (response) {
+    return reply
+      .status(402)
+      .send({ result: "Fail", message: "Email is already in use." });
+  }
+
+  await prisma.user.create({
     data: {
       email,
       firstName,
@@ -24,7 +36,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   return reply
     .status(201)
-    .send({ result: "success", message: "New user was created successfully" });
+    .send({ result: "Success", message: "New user was created successfully." });
 };
 
 const signUp = async (fastify: FastifyInstance) => {
@@ -33,6 +45,9 @@ const signUp = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       body: $ref("signUpRequestBody"),
+      response: {
+        201: $ref("genericResponse"),
+      },
     },
     handler,
     url,

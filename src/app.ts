@@ -1,4 +1,4 @@
-import Fastify from "fastify";
+import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
@@ -17,6 +17,16 @@ export const buildServer = async () => {
   const server = Fastify({
     logger: true,
   });
+
+  server.setErrorHandler(
+    (error: Error, request: FastifyRequest, reply: FastifyReply) => {
+      console.error("\n\n", error, "\n\n");
+      return reply.status(500).send({
+        result: "Internal Server Error",
+        message: "An internal server error has occured.",
+      });
+    },
+  );
 
   registerSchemas(server, {
     jsonSchemas: builtJsonSchemas,
