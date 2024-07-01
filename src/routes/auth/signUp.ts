@@ -22,7 +22,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   if (response) {
     return reply.status(409).send({
-      result: "Conflict",
+      error: "EmailInUse",
       message: "Email is already in use.",
     });
   }
@@ -34,6 +34,8 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       password,
     },
   });
+
+  reply.setCookie("authentication", "true");
 
   return reply.status(201).send({
     result: "Success",
