@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 const url = "/";
 const method = "GET";
 
-const handler = async (request: FastifyRequest, reply: FastifyReply) => {
+const handler = async (_: FastifyRequest, reply: FastifyReply) => {
   return reply.status(200).send({
     state: "online",
   });

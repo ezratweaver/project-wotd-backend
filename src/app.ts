@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
+import errorHandler from "./errorHandler";
 
 dotenv.config();
 
@@ -18,22 +19,7 @@ export const buildServer = async () => {
     logger: true,
   });
 
-  server.setErrorHandler(
-    (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
-      switch (error.code) {
-        case "FST_ERR_VALIDATION":
-          return reply.status(400).send({
-            result: "Bad Request",
-            message: error.message,
-          });
-        default:
-          return reply.status(500).send({
-            result: "Internal Server Error",
-            message: "An internal server error has occured.",
-          });
-      }
-    },
-  );
+  server.setErrorHandler(errorHandler);
 
   registerSchemas(server, {
     jsonSchemas: builtJsonSchemas,
