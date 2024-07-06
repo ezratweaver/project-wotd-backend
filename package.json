@@ -9,7 +9,6 @@
     "schema": "prisma/schema.prisma"
   },
   "dependencies": {
-    "@fastify/cookie": "^9.3.1",
     "@fastify/swagger": "^8.14.0",
     "@fastify/swagger-ui": "^4.0.0",
     "@prisma/client": "^5.16.1",

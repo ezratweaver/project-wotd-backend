@@ -4,7 +4,6 @@ import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
 import errorHandler from "./errorHandler";
-import fastifyCookie from "@fastify/cookie";
 
 dotenv.config();
 
@@ -22,14 +21,6 @@ export const { $ref } = builtJsonSchemas;
 export const buildServer = async () => {
   const server = Fastify({
     logger: true,
-  });
-
-  server.register(fastifyCookie, {
-    secret: process.env.SECRET_KEY,
-    parseOptions: {
-      secure: true,
-      signed: true,
-    },
   });
 
   server.setErrorHandler(errorHandler);
