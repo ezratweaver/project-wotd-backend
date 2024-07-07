@@ -1,26 +1,35 @@
-import Fastify from "fastify";
+import Fastify, { FastifyRequest } from "fastify";
 import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
 import errorHandler from "./errorHandler";
+import fastifyJwt from "@fastify/jwt";
 
 dotenv.config();
 
 const host = process.env.API_HOST ?? "0.0.0.0";
 const port = Number.parseInt(process.env.API_PORT ?? "3000");
 
-if (!process.env.SECRET_KEY) {
-  throw new Error("Must have a SECRET_KEY in the '.env' file.");
-}
-
 const builtJsonSchemas = buildJsonSchemas(schemas);
 
 export const { $ref } = builtJsonSchemas;
 
 export const buildServer = async () => {
+  if (!process.env.SECRET_KEY) {
+    throw new Error("Must have a SECRET_KEY in the '.env' file.");
+  }
+
   const server = Fastify({
     logger: true,
+  });
+
+  server.register(fastifyJwt, {
+    secret: process.env.SECRET_KEY,
+  });
+
+  server.decorate("authenticate", async (request: FastifyRequest) => {
+    await request.jwtVerify();
   });
 
   server.setErrorHandler(errorHandler);
