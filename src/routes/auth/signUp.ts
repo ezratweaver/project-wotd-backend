@@ -7,6 +7,8 @@ import {
 import { $ref } from "../../app";
 import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
+import { compareSync, hashSync } from "bcrypt";
+import { randomBytes } from "crypto";
 
 const url = "/signup";
 const method = "POST";
@@ -18,24 +20,28 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { email, firstName, password } = request.body as SignUpRequestBodyType;
 
-  const response = await prisma.user.findUnique({ where: { email } });
+  const existingUser = await prisma.user.findUnique({ where: { email } });
 
-  if (response) {
+  const salt = randomBytes(16).toString("hex");
+  const hashedPassword = hashSync(password + salt, 1);
+
+  if (existingUser) {
     return reply.status(409).send({
       error: "EmailInUse",
       message: "Email is already in use.",
     });
   }
 
-  await prisma.user.create({
+  const createdUser = await prisma.user.create({
     data: {
       email,
       firstName,
-      password,
+      password: hashedPassword,
+      salt,
     },
   });
 
-  reply.setCookie("authentication", "true");
+  reply.jwtSign({ email: createdUser.email, userKey: createdUser.userKey });
 
   return reply.status(201).send({
     result: "Success",
