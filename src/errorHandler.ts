@@ -13,6 +13,11 @@ const errorHandler = (
         error: "Bad Request",
         message: error.message,
       });
+    case "FST_JWT_NO_AUTHORIZATION_IN_HEADER":
+      return reply.status(401).send({
+        error: "Unauthorized",
+        message: "You are not authorized to use this resource.",
+      });
     default:
       return reply.status(500).send({
         error: "Internal Server Error",
