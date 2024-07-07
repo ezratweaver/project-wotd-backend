@@ -13,10 +13,10 @@ const errorHandler = (
         error: "Bad Request",
         message: error.message,
       });
-    case "FST_JWT_NO_AUTHORIZATION_IN_HEADER":
+    case "FAST_JWT_MALFORMED":
       return reply.status(401).send({
-        error: "Unauthorized",
-        message: "You are not authorized to use this resource.",
+        error: "Bad JWT",
+        message: "JWT is malformed or incorrectly formatted.",
       });
     default:
       return reply.status(500).send({

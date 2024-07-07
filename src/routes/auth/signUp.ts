@@ -7,7 +7,7 @@ import {
 import { $ref } from "../../app";
 import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
-import { compareSync, hashSync } from "bcrypt";
+import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 
 const url = "/signup";
@@ -41,7 +41,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  reply.jwtSign({ email: createdUser.email, userKey: createdUser.userKey });
+  const token = await reply.jwtSign({
+    userKey: createdUser.userKey,
+    email: createdUser.email,
+  });
+
+  reply.setCookie("token", token);
 
   return reply.status(201).send({
     result: "Success",

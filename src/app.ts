@@ -1,10 +1,25 @@
-import Fastify, { FastifyRequest } from "fastify";
+import Fastify, { FastifyReply, FastifyRequest } from "fastify";
 import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
 import errorHandler from "./errorHandler";
-import fastifyJwt from "@fastify/jwt";
+import fastifyJwt, { FastifyJWT, JWT } from "@fastify/jwt";
+import fastifyCookie from "@fastify/cookie";
+
+declare module "fastify" {
+  interface FastifyInstance {
+    authenticate: any;
+  }
+}
+
+type UserPayload = { userKey: number; email: string };
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    user: UserPayload;
+  }
+}
 
 dotenv.config();
 
@@ -24,13 +39,29 @@ export const buildServer = async () => {
     logger: true,
   });
 
+  server.register(fastifyCookie);
+
   server.register(fastifyJwt, {
     secret: process.env.SECRET_KEY,
   });
 
-  server.decorate("authenticate", async (request: FastifyRequest) => {
-    await request.jwtVerify();
-  });
+  server.decorate(
+    "authenticate",
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const token = request.cookies.token;
+
+      if (!token) {
+        return reply.status(401).send({
+          error: "Unauthorized",
+          message: "You are not authorized to use this resource.",
+        });
+      }
+
+      const decodedToken = server.jwt.verify(token);
+
+      request.user = decodedToken as UserPayload;
+    },
+  );
 
   server.setErrorHandler(errorHandler);
 
