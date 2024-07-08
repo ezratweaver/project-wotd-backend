@@ -2,12 +2,14 @@ import { readdirSync } from "fs";
 import { resolve } from "path";
 import { SignUpRequestBody } from "./schemas/SignUpRequestBody";
 import { GenericResponse } from "./schemas/GenericResponse";
+import { LoginRequestBody } from "./schemas/LoginRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
 const schemas = {
   SignUpRequestBody,
   GenericResponse,
+  LoginRequestBody,
 };
 
 if (readdirSync(schemasDir).length > Object.values(schemas).length) {
