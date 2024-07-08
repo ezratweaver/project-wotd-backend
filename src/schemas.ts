@@ -4,6 +4,7 @@ import { SignUpRequestBody } from "./schemas/SignUpRequestBody";
 import { GenericResponse } from "./schemas/GenericResponse";
 import { LoginRequestBody } from "./schemas/LoginRequestBody";
 import { FetchWOTDRequestBody } from "./schemas/FetchWOTDRequestBody";
+import { FetchWOTDResponse } from "./schemas/FetchWOTDResponse";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -12,6 +13,7 @@ const schemas = {
   GenericResponse,
   LoginRequestBody,
   FetchWOTDRequestBody,
+  FetchWOTDResponse,
 };
 
 if (readdirSync(schemasDir).length > Object.values(schemas).length) {
