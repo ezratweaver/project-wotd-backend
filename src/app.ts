@@ -42,13 +42,13 @@ export const buildServer = async () => {
     secret: process.env.JWT_SECRET_KEY,
   });
 
+  server.setErrorHandler(errorHandler);
+
   server.decorate(
     "authenticate",
     (request: FastifyRequest, reply: FastifyReply) =>
       authHandler(server, request, reply),
   );
-
-  server.setErrorHandler(errorHandler);
 
   registerSchemas(server, {
     jsonSchemas: builtJsonSchemas,
