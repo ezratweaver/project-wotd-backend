@@ -8,30 +8,30 @@ datasource db {
 }
 
 model User {
-  userKey     Int            @id @default(autoincrement())
-  email       String         @unique
+  userKey     Int           @id @default(autoincrement())
+  email       String        @unique
   firstName   String
   password    String
   salt        String
-  createdDate DateTime       @default(now())
-  learned     User_Learned[]
+  createdDate DateTime      @default(now())
+  learned     UserLearned[]
 }
 
-model User_Learned {
-  userLearnedKey Int   @id @default(autoincrement())
+model UserLearned {
+  userLearnedKey Int           @id @default(autoincrement())
   wotdKey        Int
   userKey        Int
-  user           User? @relation(fields: [userKey], references: [userKey])
-  word           WOTD? @relation(fields: [wotdKey], references: [wotdKey])
+  user           User?         @relation(fields: [userKey], references: [userKey])
+  word           WordOfTheDay? @relation(fields: [wotdKey], references: [wotdKey])
 }
 
-model WOTD {
-  wotdKey       Int            @id @default(autoincrement())
-  word          String         @unique
+model WordOfTheDay {
+  wotdKey       Int           @id @default(autoincrement())
+  word          String        @unique
   definition    String
   pronunciation String
   partOfSpeech  String
   usage         String
   date          DateTime
-  usersLearned  User_Learned[]
+  usersLearned  UserLearned[]
 }
