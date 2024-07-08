@@ -7,17 +7,11 @@ import errorHandler from "./errorHandler";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 
+type JwtPayload = { userKey: number; email: string };
+
 declare module "fastify" {
   interface FastifyInstance {
     authenticate: any;
-  }
-}
-
-type UserPayload = { userKey: number; email: string };
-
-declare module "@fastify/jwt" {
-  interface FastifyJWT {
-    user: UserPayload;
   }
 }
 
@@ -63,7 +57,7 @@ export const buildServer = async () => {
 
       const decodedPayload = server.jwt.verify(authentication);
 
-      request.user = decodedPayload as UserPayload;
+      request.user = decodedPayload as JwtPayload;
     },
   );
 

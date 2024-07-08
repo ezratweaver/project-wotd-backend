@@ -14,14 +14,15 @@ const errorHandler = (
         message: error.message,
       });
     case "FAST_JWT_MALFORMED":
+    case "FAST_JWT_INVALID_SIGNATURE":
       return reply.status(401).send({
-        error: "Bad JWT",
-        message: "JWT is malformed or incorrectly formatted.",
+        error: "Unauthorized",
+        message: "You are not authorized to use this resource.",
       });
     default:
-      return reply.status(500).send({
-        error: "Internal Server Error",
-        message: "An internal server error has occured.",
+      return reply.status(400).send({
+        error: "Service failed",
+        message: "A service could not be completed.",
       });
   }
 };
