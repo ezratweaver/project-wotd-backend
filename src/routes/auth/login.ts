@@ -12,8 +12,10 @@ import LoginRequestBodyType from "../../schemas/LoginRequestBody";
 const url = "/login";
 const method = "POST";
 const schema = {
-  operationId: "signUp",
+  operationId: "login",
   tags: ["Authentication"],
+  summary:
+    "Endpoint that authenitcates the user, and gives a cookie with a jwt for authentication",
 } as FastifySchema;
 
 const invalidUserNameOrPassword = {
@@ -64,6 +66,8 @@ const login = async (fastify: FastifyInstance) => {
       body: $ref("LoginRequestBody"),
       response: {
         200: $ref("GenericResponse"),
+        400: $ref("GenericResponse"),
+        401: $ref("GenericResponse"),
       },
     },
     handler,
