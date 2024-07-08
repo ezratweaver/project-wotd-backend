@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
-import errorHandler from "./errorHandler";
+import errorHandler from "./utils/errorHandler";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 import authHandler from "./utils/authHandler";
