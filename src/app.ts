@@ -6,8 +6,7 @@ import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
 import errorHandler from "./errorHandler";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
-
-type JwtPayload = { userKey: number; email: string };
+import authHandler from "./utils/authHandler";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -45,20 +44,8 @@ export const buildServer = async () => {
 
   server.decorate(
     "authenticate",
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const authentication = request.cookies.authentication;
-
-      if (!authentication) {
-        return reply.status(401).send({
-          error: "Unauthorized",
-          message: "You are not authorized to use this resource.",
-        });
-      }
-
-      const decodedPayload = server.jwt.verify(authentication);
-
-      request.user = decodedPayload as JwtPayload;
-    },
+    (request: FastifyRequest, reply: FastifyReply) =>
+      authHandler(server, request, reply),
   );
 
   server.setErrorHandler(errorHandler);
