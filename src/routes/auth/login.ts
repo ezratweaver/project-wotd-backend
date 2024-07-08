@@ -15,7 +15,7 @@ const schema = {
   operationId: "login",
   tags: ["Authentication"],
   summary:
-    "Endpoint that authenitcates the user, and gives a cookie with a jwt for authentication",
+    "Authenitcates the user, and gives a cookie with a JWT for authentication",
 } as FastifySchema;
 
 const invalidUserNameOrPassword = {

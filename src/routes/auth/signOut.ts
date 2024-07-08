@@ -11,6 +11,7 @@ const method = "DELETE";
 const schema = {
   operationId: "signOut",
   tags: ["Authentication"],
+  summary: "Removes cookie that holds JWT for authentication",
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {

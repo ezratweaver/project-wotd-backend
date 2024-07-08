@@ -15,6 +15,8 @@ const method = "POST";
 const schema = {
   operationId: "signUp",
   tags: ["Authentication"],
+  summary:
+    "Creates user based off given information, then gives user a cookie with a JWT for authentication",
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
