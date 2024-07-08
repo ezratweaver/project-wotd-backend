@@ -24,7 +24,7 @@ const invalidUserNameOrPassword = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { email, password } = request.body as LoginRequestBodyType;
 
-  if (request.cookies.token) {
+  if (request.cookies.authentication) {
     reply.status(400).send({
       error: "Already Authenticated",
       message: "You are already authenticated.",
@@ -40,12 +40,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const passwordIsValid = compareSync(password + user.salt, user.password);
 
   if (passwordIsValid) {
-    const token = await reply.jwtSign({
+    const authentication = await reply.jwtSign({
       userKey: user.userKey,
       email: user.email,
     });
 
-    reply.setCookie("token", token);
+    reply.setCookie("authentication", authentication);
 
     return reply.status(200).send({
       result: "Success",

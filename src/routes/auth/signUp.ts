@@ -41,12 +41,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const token = await reply.jwtSign({
+  const authentication = await reply.jwtSign({
     userKey: createdUser.userKey,
     email: createdUser.email,
   });
 
-  reply.setCookie("token", token);
+  reply.setCookie("authentication", authentication);
 
   return reply.status(201).send({
     result: "Success",

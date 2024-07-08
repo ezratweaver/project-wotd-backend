@@ -52,18 +52,18 @@ export const buildServer = async () => {
   server.decorate(
     "authenticate",
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const token = request.cookies.token;
+      const authentication = request.cookies.authentication;
 
-      if (!token) {
+      if (!authentication) {
         return reply.status(401).send({
           error: "Unauthorized",
           message: "You are not authorized to use this resource.",
         });
       }
 
-      const decodedToken = server.jwt.verify(token);
+      const decodedPayload = server.jwt.verify(authentication);
 
-      request.user = decodedToken as UserPayload;
+      request.user = decodedPayload as UserPayload;
     },
   );
 
