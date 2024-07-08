@@ -4,7 +4,7 @@ import registerRoutes from "./routes/routes";
 import schemas from "./schemas";
 import { buildJsonSchemas, register as registerSchemas } from "fastify-zod";
 import errorHandler from "./errorHandler";
-import fastifyJwt, { FastifyJWT, JWT } from "@fastify/jwt";
+import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 
 declare module "fastify" {
@@ -31,18 +31,22 @@ const builtJsonSchemas = buildJsonSchemas(schemas);
 export const { $ref } = builtJsonSchemas;
 
 export const buildServer = async () => {
-  if (!process.env.SECRET_KEY) {
-    throw new Error("Must have a SECRET_KEY in the '.env' file.");
+  if (!process.env.COOKIE_SECRET_KEY || !process.env.JWT_SECRET_KEY) {
+    throw new Error(
+      "Must have a COOKIE_SECRET_KEY and JWT_SECRET_KEY in the '.env' file.",
+    );
   }
 
   const server = Fastify({
     logger: true,
   });
 
-  server.register(fastifyCookie);
+  server.register(fastifyCookie, {
+    secret: process.env.COOKIE_SECRET_KEY,
+  });
 
   server.register(fastifyJwt, {
-    secret: process.env.SECRET_KEY,
+    secret: process.env.JWT_SECRET_KEY,
   });
 
   server.decorate(
