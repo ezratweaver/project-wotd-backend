@@ -31,7 +31,11 @@ export const buildServer = async () => {
   }
 
   const server = Fastify({
-    logger: true,
+    logger: {
+      transport: {
+        target: "pino-pretty",
+      },
+    },
   });
 
   server.register(fastifyCookie, {
