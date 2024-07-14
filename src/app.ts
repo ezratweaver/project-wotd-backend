@@ -39,7 +39,10 @@ export const buildServer = async () => {
     parseOptions: {
       secure: true,
       signed: true,
+      httpOnly: true,
+      sameSite: "strict",
     },
+    hook: "preParsing",
   });
 
   server.register(fastifyJwt, {

@@ -27,7 +27,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { email, password } = request.body as LoginRequestBodyType;
 
   if (request.cookies.authentication) {
-    reply.status(400).send({
+    return reply.status(400).send({
       error: "Already Authenticated",
       message: "You are already authenticated.",
     });
@@ -47,7 +47,9 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       email: user.email,
     });
 
-    reply.setCookie("authentication", authentication);
+    reply.setCookie("authentication", authentication, {
+      signed: false,
+    });
 
     return reply.status(200).send({
       result: "Success",

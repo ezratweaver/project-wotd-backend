@@ -48,7 +48,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     email: createdUser.email,
   });
 
-  reply.setCookie("authentication", authentication);
+  reply.setCookie("authentication", authentication, { signed: false });
 
   return reply.status(201).send({
     result: "Success",
