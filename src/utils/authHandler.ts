@@ -1,20 +1,31 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { unsign } from "@fastify/cookie";
 
 const authHandler = async (
   server: FastifyInstance,
   request: FastifyRequest,
   reply: FastifyReply,
 ) => {
-  const authentication = request.cookies.authentication;
-
-  if (!authentication) {
+  if (!request.cookies.authentication) {
     return reply.status(401).send({
       error: "Unauthorized",
       message: "You are not authorized to use this resource.",
     });
   }
 
-  const decodedPayload = server.jwt.verify(authentication);
+  const authentication = unsign(
+    request.cookies.authentication,
+    process.env.COOKIE_SECRET_KEY as string,
+  );
+
+  if (!authentication.value) {
+    return reply.status(401).send({
+      error: "Unauthorized",
+      message: "You are not authorized to use this resource.",
+    });
+  }
+
+  const decodedPayload = server.jwt.verify(authentication.value);
 
   request.user = decodedPayload as { userKey: number; email: string };
 };
