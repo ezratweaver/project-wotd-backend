@@ -36,6 +36,10 @@ export const buildServer = async () => {
 
   server.register(fastifyCookie, {
     secret: process.env.COOKIE_SECRET_KEY,
+    parseOptions: {
+      secure: true,
+      signed: true,
+    },
   });
 
   server.register(fastifyJwt, {
