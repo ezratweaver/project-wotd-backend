@@ -1,4 +1,5 @@
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
+import { unauthorizedError } from "./authHandler";
 
 const errorHandler = (
   error: FastifyError,
@@ -15,10 +16,7 @@ const errorHandler = (
       });
     case "FAST_JWT_MALFORMED":
     case "FAST_JWT_INVALID_SIGNATURE":
-      return reply.status(401).send({
-        error: "Unauthorized",
-        message: "You are not authorized to use this resource.",
-      });
+      return reply.status(401).send(unauthorizedError);
     default:
       return reply.status(400).send({
         error: "Service failed",
