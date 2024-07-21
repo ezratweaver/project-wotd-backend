@@ -18,7 +18,7 @@ const errorHandler = (
     case "FAST_JWT_INVALID_SIGNATURE":
       return reply.status(401).send(unauthorizedError);
     default:
-      return reply.status(400).send({
+      return reply.status(500).send({
         error: "Service failed",
         message: "A service could not be completed.",
       });
