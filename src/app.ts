@@ -7,6 +7,7 @@ import errorHandler from "./utils/errorHandler";
 import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 import authHandler from "./utils/authHandler";
+import fastifyCors from "@fastify/cors";
 
 declare module "fastify" {
   interface FastifyInstance {
@@ -44,13 +45,18 @@ export const buildServer = async () => {
       secure: true,
       signed: true,
       httpOnly: true,
-      sameSite: "strict",
+      sameSite: "none",
     },
     hook: "preParsing",
   });
 
   server.register(fastifyJwt, {
     secret: process.env.JWT_SECRET_KEY,
+  });
+
+  server.register(fastifyCors, {
+    origin: true,
+    credentials: true,
   });
 
   server.setErrorHandler(errorHandler);
