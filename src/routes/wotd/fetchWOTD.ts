@@ -19,9 +19,13 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { wordDate } = request.params as FetchWOTDRequestParamsType;
 
+  const wordDateWithoutHours = new Date(wordDate);
+
+  wordDateWithoutHours.setHours(0, 0, 0, 0);
+
   const foundWord = await prisma.wordOfTheDay.findFirst({
     where: {
-      date: wordDate,
+      date: wordDateWithoutHours,
     },
   });
 
