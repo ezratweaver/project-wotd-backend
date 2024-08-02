@@ -7,6 +7,7 @@ import {
 import { $ref } from "../../app";
 import prisma from "../../database";
 import FetchWOTDRequestParamsType from "../../schemas/FetchWOTDRequestParams";
+import { dateWithoutHours, dateWithOffset } from "../../helper/dateHelpers";
 
 const url = "/fetchWOTD/:wordDate";
 const method = "GET";
@@ -19,9 +20,10 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { wordDate } = request.params as FetchWOTDRequestParamsType;
 
-  const wordDateWithoutHours = new Date(wordDate);
+  const wordDateWithoutHours = dateWithoutHours(wordDate);
 
-  wordDateWithoutHours.setHours(0, 0, 0, 0);
+  const nextWordDate = dateWithoutHours(dateWithOffset(1, wordDate));
+  const prevWordDate = dateWithoutHours(dateWithOffset(-1, wordDate));
 
   const foundWord = await prisma.wordOfTheDay.findFirst({
     where: {
@@ -29,11 +31,23 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  if (!foundWord) {
-    return reply.status(204).send();
-  }
+  const nextWord = await prisma.wordOfTheDay.count({
+    where: {
+      date: nextWordDate,
+    },
+  });
 
-  return reply.status(200).send(foundWord);
+  const prevWord = await prisma.wordOfTheDay.count({
+    where: {
+      date: prevWordDate,
+    },
+  });
+
+  return reply.status(200).send({
+    wordData: foundWord,
+    wordNextDay: nextWord > 0,
+    wordPrevDay: prevWord > 0,
+  });
 };
 
 const fetchWOTD = async (fastify: FastifyInstance) => {
@@ -43,9 +57,6 @@ const fetchWOTD = async (fastify: FastifyInstance) => {
       ...schema,
       params: $ref("FetchWOTDRequestParams"),
       response: {
-        204: {
-          type: "null",
-        },
         200: $ref("FetchWOTDResponse"),
       },
     },
