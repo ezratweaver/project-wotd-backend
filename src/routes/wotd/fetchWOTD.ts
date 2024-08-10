@@ -44,7 +44,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   return reply.status(200).send({
-    wordData: foundWord,
+    wordData: foundWord ? foundWord : undefined,
     wordNextDay: nextWord > 0,
     wordPrevDay: prevWord > 0,
   });
