@@ -9,7 +9,7 @@ import prisma from "../../database";
 import FetchWOTDRequestParamsType from "../../schemas/FetchWOTDRequestParams";
 import { dateWithoutHours, dateWithOffset } from "../../helper/dateHelpers";
 
-const url = "/fetchWOTD/:wordDate";
+const url = "/fetch-wotd/:wordDate";
 const method = "GET";
 const schema = {
   operationId: "fetchWOTD",
