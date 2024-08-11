@@ -34,17 +34,35 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       message: "The word provided was not found.",
     });
 
-  await prisma.userLearned.create({
-    data: {
+  const wordAlreadyLearned = await prisma.userLearned.findFirst({
+    where: {
       userKey,
       wotdKey: wordFromDB.wotdKey,
     },
   });
 
-  return reply.status(201).send({
-    result: "Success",
-    message: `Word was successfully marked as learned for userKey: ${userKey}.`,
-  });
+  if (wordAlreadyLearned) {
+    await prisma.userLearned.delete({
+      where: {
+        userLearnedKey: wordAlreadyLearned.userLearnedKey,
+      },
+    });
+    return reply.status(201).send({
+      result: "Success",
+      message: `Word was successfully marked as not learned for userKey: ${userKey}.`,
+    });
+  } else {
+    await prisma.userLearned.create({
+      data: {
+        userKey,
+        wotdKey: wordFromDB.wotdKey,
+      },
+    });
+    return reply.status(201).send({
+      result: "Success",
+      message: `Word was successfully marked as learned for userKey: ${userKey}.`,
+    });
+  }
 };
 
 const learnWOTD = async (fastify: FastifyInstance) => {
