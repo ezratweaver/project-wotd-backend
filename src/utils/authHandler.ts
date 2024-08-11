@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { unsign } from "@fastify/cookie";
+import { UserJWT } from "../app";
 
 export const unauthorizedError = {
   error: "Unauthorized",
@@ -26,7 +27,7 @@ const authHandler = async (
 
   const decodedPayload = server.jwt.verify(authentication.value);
 
-  request.user = decodedPayload as { userKey: number; email: string };
+  request.user = decodedPayload as UserJWT;
 };
 
 export default authHandler;

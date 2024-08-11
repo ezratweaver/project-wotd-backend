@@ -20,7 +20,7 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { wordDate } = request.params as FetchWOTDRequestParamsType;
 
-  const userKey = (request.user as any).userKey;
+  const userKey = request.user.userKey;
 
   const wordDateWithoutHours = dateWithoutHours(wordDate);
 

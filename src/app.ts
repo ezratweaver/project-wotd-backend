@@ -9,9 +9,20 @@ import fastifyCookie from "@fastify/cookie";
 import authHandler from "./utils/authHandler";
 import fastifyCors from "@fastify/cors";
 
+export interface UserJWT {
+  userKey: number;
+  email: string;
+}
+
 declare module "fastify" {
   interface FastifyInstance {
     authenticate: any;
+  }
+}
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    user: UserJWT;
   }
 }
 
