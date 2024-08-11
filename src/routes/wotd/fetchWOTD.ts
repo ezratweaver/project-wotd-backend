@@ -20,6 +20,8 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { wordDate } = request.params as FetchWOTDRequestParamsType;
 
+  const userKey = (request.user as any).userKey;
+
   const wordDateWithoutHours = dateWithoutHours(wordDate);
 
   const nextWordDate = dateWithoutHours(dateWithOffset(1, wordDate));
@@ -43,8 +45,15 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
+  const userLearned = await prisma.userLearned.findFirst({
+    where: {
+      userKey,
+      wotdKey: foundWord?.wotdKey,
+    },
+  });
+
   return reply.status(200).send({
-    wordData: foundWord ? foundWord : undefined,
+    wordData: foundWord ? { ...foundWord, learned: !!userLearned } : undefined,
     wordNextDay: nextWord > 0,
     wordPrevDay: prevWord > 0,
   });

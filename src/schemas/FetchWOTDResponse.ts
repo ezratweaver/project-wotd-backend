@@ -7,6 +7,7 @@ export const Word = z.object({
   partOfSpeech: z.string(),
   usage: z.string(),
   date: z.date(),
+  learned: z.boolean(),
 });
 
 export const FetchWOTDResponse = z.object({
