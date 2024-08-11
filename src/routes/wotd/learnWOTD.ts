@@ -11,7 +11,7 @@ import prisma from "../../database";
 const url = "/learn-wotd";
 const method = "POST";
 const schema = {
-  operationId: "fetchWOTD",
+  operationId: "learnWOTD",
   tags: ["WOTD"],
   summary:
     "Updates a WOTD to be marked as learned, for the userKey in the jwt session provided.",
