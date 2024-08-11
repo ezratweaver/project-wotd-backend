@@ -5,6 +5,7 @@ import { GenericResponse } from "./schemas/GenericResponse";
 import { LoginRequestBody } from "./schemas/LoginRequestBody";
 import { FetchWOTDResponse } from "./schemas/FetchWOTDResponse";
 import { FetchWOTDRequestParams } from "./schemas/FetchWOTDRequestParams";
+import { LearnWOTDRequestBody } from "./schemas/LearnWOTDRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -14,6 +15,7 @@ const schemas = {
   LoginRequestBody,
   FetchWOTDResponse,
   FetchWOTDRequestParams,
+  LearnWOTDRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
