@@ -21,7 +21,7 @@ const authHandler = async (
     process.env.COOKIE_SECRET_KEY as string,
   );
 
-  if (!authentication.value) {
+  if (!authentication.value || !authentication.valid) {
     return reply.status(401).send(unauthorizedError);
   }
 
