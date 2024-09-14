@@ -39,6 +39,13 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(401).send(invalidUserNameOrPassword);
   }
 
+  if (!user.emailVerified) {
+    return reply.status(403).send({
+      error: "Email Not Verified.",
+      message: "Email for this user is not verified.",
+    });
+  }
+
   const passwordIsValid = compareSync(password + user.salt, user.password);
 
   if (passwordIsValid) {
@@ -68,6 +75,7 @@ const login = async (fastify: FastifyInstance) => {
         200: $ref("GenericResponse"),
         400: $ref("GenericResponse"),
         401: $ref("GenericResponse"),
+        403: $ref("GenericResponse"),
       },
     },
     handler,
