@@ -9,6 +9,7 @@ import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
+import { mailer } from "../../mailer";
 
 const url = "/signup";
 const method = "POST";
@@ -34,7 +35,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  const createdUser = await prisma.user.create({
+  await prisma.user.create({
     data: {
       email,
       firstName,
@@ -43,16 +44,16 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const authentication = await reply.jwtSign({
-    userKey: createdUser.userKey,
-    email: createdUser.email,
+  const emailToken = await reply.jwtSign({
+    token: true,
   });
 
-  reply.setCookie("authentication", authentication);
+  // TODO: Send Email
 
   return reply.status(201).send({
     result: "Success",
-    message: "New user was created successfully.",
+    message:
+      "New user was created successfully. A token has been sent to the email address provided.",
   });
 };
 
