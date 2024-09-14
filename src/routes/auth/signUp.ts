@@ -31,9 +31,6 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const existingUser = await prisma.user.findUnique({ where: { email } });
 
-  const salt = randomBytes(16).toString("hex");
-  const hashedPassword = hashSync(password + salt, 1);
-
   if (existingUser) {
     return reply.status(409).send({
       error: "Email In Use",
@@ -41,12 +38,16 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
+  const salt = randomBytes(16).toString("hex");
+  const hashedPassword = hashSync(password + salt, 1);
+
   const createdUser = await prisma.user.create({
     data: {
       email,
       firstName,
       password: hashedPassword,
       salt,
+      emailVerified: false,
     },
   });
 
