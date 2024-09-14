@@ -5,6 +5,7 @@ import login from "./auth/login";
 import signOut from "./auth/signOut";
 import fetchWOTD from "./wotd/fetchWOTD";
 import learnWOTD from "./wotd/learnWOTD";
+import confirmEmailToken from "./auth/confirmEmailToken";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -13,6 +14,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(signOut);
   server.register(fetchWOTD);
   server.register(learnWOTD);
+  server.register(confirmEmailToken);
 };
 
 export default registerRoutes;

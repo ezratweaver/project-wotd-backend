@@ -19,6 +19,9 @@ declare module "fastify" {
   interface FastifyInstance {
     authenticate: any;
   }
+  interface FastifyRequest {
+    decodeToken: (token: string) => any;
+  }
 }
 
 declare module "@fastify/jwt" {
@@ -83,6 +86,10 @@ export const buildServer = async () => {
     (request: FastifyRequest, reply: FastifyReply) =>
       authHandler(server, request, reply),
   );
+
+  server.decorateRequest("decodeToken", (token: string) => {
+    return server.jwt.decode(token);
+  });
 
   registerSchemas(server, {
     jsonSchemas: builtJsonSchemas,

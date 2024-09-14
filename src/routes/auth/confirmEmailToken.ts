@@ -20,9 +20,7 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { token } = request.body as ConfirmEmailTokenRequestBodyType;
 
-  const verifiedToken: EmailTokenType = await request.jwtVerify({
-    key: token,
-  });
+  const verifiedToken: EmailTokenType = await request.decodeToken(token);
 
   if (new Date() > verifiedToken.expires) {
     return reply.status(401).send({
