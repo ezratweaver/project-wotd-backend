@@ -42,6 +42,9 @@ export const buildServer = async () => {
       "Must have a COOKIE_SECRET_KEY and JWT_SECRET_KEY in the '.env' file.",
     );
   }
+  if (!process.env.APP_NAME) {
+    throw new Error("Must have a APP_NAME in the '.env' file ");
+  }
 
   await startDockerContainers();
 
