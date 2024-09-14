@@ -10,3 +10,8 @@ export const dateWithoutHours = (date: Date | string) => {
   newDate.setUTCHours(0, 0, 0, 0);
   return newDate;
 };
+
+export const dateSecondsFromNow = (seconds: number, date?: Date | string) => {
+  const currentDate = date ? new Date(date) : new Date();
+  return new Date(currentDate.getTime() + seconds * 1000);
+};
