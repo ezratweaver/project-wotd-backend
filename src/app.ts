@@ -8,6 +8,7 @@ import fastifyJwt from "@fastify/jwt";
 import fastifyCookie from "@fastify/cookie";
 import authHandler from "./utils/authHandler";
 import fastifyCors from "@fastify/cors";
+import { startDockerContainers } from "./docker";
 
 export interface UserJWT {
   userKey: number;
@@ -41,6 +42,8 @@ export const buildServer = async () => {
       "Must have a COOKIE_SECRET_KEY and JWT_SECRET_KEY in the '.env' file.",
     );
   }
+
+  await startDockerContainers();
 
   const server = Fastify({
     logger: {
