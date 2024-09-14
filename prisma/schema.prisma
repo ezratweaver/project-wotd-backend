@@ -8,13 +8,14 @@ datasource db {
 }
 
 model User {
-  userKey     Int           @id @default(autoincrement())
-  email       String        @unique
-  firstName   String
-  password    String
-  salt        String
-  createdDate DateTime      @default(now())
-  learned     UserLearned[]
+  userKey       Int           @id @default(autoincrement())
+  email         String        @unique
+  firstName     String
+  password      String
+  salt          String
+  createdDate   DateTime      @default(now())
+  learned       UserLearned[]
+  emailVerified Boolean       @default(false)
 }
 
 model UserLearned {
