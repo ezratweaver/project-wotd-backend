@@ -9,7 +9,6 @@ import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
-import { mailer } from "../../mailer";
 import { dateWithOffset } from "../../helper/dateHelpers";
 
 const url = "/signup";
