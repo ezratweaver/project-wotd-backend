@@ -3,7 +3,7 @@ import { execa } from "execa";
 const DB_DOCKER_IMAGE_NAME = process.env.DB_DOCKER_IMAGE_NAME;
 const DB_PORT = process.env.DB_PORT;
 const DB_PASSWORD = process.env.DB_PASSWORD;
-const SMTP4DEV_PORT = process.env.SMTP4DEV_PORT;
+const SMTP4DEV_WEB_PORT = process.env.SMTP4DEV_WEB_PORT;
 const SMTP4DEV_NAME = process.env.SMTP4DEV_NAME;
 
 const $ = execa({ verbose: "short" });
@@ -12,11 +12,11 @@ if (
   !DB_DOCKER_IMAGE_NAME ||
   !DB_PORT ||
   !DB_PASSWORD ||
-  !SMTP4DEV_PORT ||
+  !SMTP4DEV_WEB_PORT ||
   !SMTP4DEV_NAME
 ) {
   throw new Error(
-    "Must have a DB_DOCKER_IMAGE_NAME, DB_PORT, DB_PASSWORD, SMTP4DEV_PORT, and SMTP4DEV_NAME in the '.env' file.",
+    "Must have a DB_DOCKER_IMAGE_NAME, DB_PORT, DB_PASSWORD, SMTP4DEV_WEB_PORT, and SMTP4DEV_NAME in the '.env' file.",
   );
 }
 
@@ -54,7 +54,7 @@ export const startDockerContainers = async () => {
 
   // Start smtp4dev
   if (!(await containerIsRunning(SMTP4DEV_NAME)))
-    await $`sudo docker run -d --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_PORT}:${SMTP4DEV_PORT} -p 2525:25 rnwood/smtp4dev`;
+    await $`sudo docker run -d --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_WEB_PORT}:${SMTP4DEV_WEB_PORT} -p 2525:25 rnwood/smtp4dev`;
 
-  console.log(`SMTP4Dev ready at http://localhost:${SMTP4DEV_PORT}`);
+  console.log(`SMTP4Dev ready at http://localhost:${SMTP4DEV_WEB_PORT}`);
 };
