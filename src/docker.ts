@@ -41,22 +41,36 @@ const containerExists = async (containerName: string) => {
   }
 };
 
-export const buildPostgresContainer = async () => {
+const startContainer = async (containerName: string) => {
+  await $`docker start /${containerName}`;
+};
+
+const buildPostgresContainer = async () => {
   await $`docker run --name ${DB_DOCKER_IMAGE_NAME} -p ${DB_PORT}:${DB_PORT} -e POSTGRES_PASSWORD=${DB_PASSWORD} -d postgres`;
+};
+
+const buildSMTP4DevContainer = async () => {
+  await $`docker run -d --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_WEB_PORT}:${SMTP4DEV_WEB_PORT} -p ${SMTP4DEV_SMTP_PORT}:${SMTP4DEV_SMTP_PORT} rnwood/smtp4dev`;
+};
+
+const startOrBuildContainer = async (
+  containerName: string,
+  buildCallback: () => Promise<void>,
+) => {
+  if (!(await containerIsRunning(containerName))) {
+    if (!(await containerExists(containerName))) {
+      await buildCallback();
+    }
+    await startContainer(containerName);
+  }
 };
 
 export const startDockerContainers = async () => {
   // Start postgres
-  if (!(await containerIsRunning(DB_DOCKER_IMAGE_NAME))) {
-    if (!(await containerExists(DB_DOCKER_IMAGE_NAME))) {
-      await buildPostgresContainer();
-    }
-    await $`docker start /${DB_DOCKER_IMAGE_NAME}`;
-  }
+  await startOrBuildContainer(DB_DOCKER_IMAGE_NAME, buildPostgresContainer);
 
   // Start smtp4dev
-  if (!(await containerIsRunning(SMTP4DEV_NAME)))
-    await $`docker run -d --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_WEB_PORT}:${SMTP4DEV_WEB_PORT} -p ${SMTP4DEV_SMTP_PORT}:${SMTP4DEV_SMTP_PORT} rnwood/smtp4dev`;
+  await startOrBuildContainer(SMTP4DEV_NAME, buildSMTP4DevContainer);
 
   console.log(`SMTP4Dev ready at http://localhost:${SMTP4DEV_WEB_PORT}`);
 };
