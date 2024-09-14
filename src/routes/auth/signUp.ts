@@ -10,6 +10,7 @@ import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 import { dateWithOffset } from "../../helper/dateHelpers";
+import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 
 const url = "/signup";
 const method = "POST";
@@ -57,7 +58,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const jwtEmailToken = await reply.jwtSign(tokenToSign);
 
-  // TODO: Send Email
+  sendEmailForEmailVerfication(createdUser.email, jwtEmailToken);
 
   return reply.status(201).send({
     result: "Success",
