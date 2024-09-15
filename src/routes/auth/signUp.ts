@@ -65,7 +65,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   reply.setCookie("email", jwtEmailToken);
 
-  sendEmailForEmailVerfication({ to: createdUser.email, token: otp });
+  sendEmailForEmailVerfication({
+    email: createdUser.email,
+    firstName: createdUser.firstName,
+    token: otp,
+  });
 
   return reply.status(201).send({
     result: "Success",
