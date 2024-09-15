@@ -1,6 +1,12 @@
 import { sendEmail } from "../mailer";
 
-export const sendEmailForEmailVerfication = (to: string, token: string) => {
+export const sendEmailForEmailVerfication = ({
+  to,
+  token,
+}: {
+  to: string;
+  token: string;
+}) => {
   sendEmail({
     to,
     subject: `Verify Email For ${process.env.APP_NAME as string}`,
