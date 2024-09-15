@@ -11,6 +11,7 @@ import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 import { dateWithOffset } from "../../helper/dateHelpers";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
+import { generateOTP } from "../../helper/otpHelpers";
 
 const url = "/signup";
 const method = "POST";
@@ -22,6 +23,7 @@ const schema = {
 } as FastifySchema;
 
 export interface EmailTokenType {
+  token: string;
   email: string;
   expires: Date;
 }
@@ -51,14 +53,19 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
+  const otp = generateOTP(16);
+
   const tokenToSign: EmailTokenType = {
+    token: otp,
     email: createdUser.email,
     expires: dateWithOffset(1),
   };
 
   const jwtEmailToken = await reply.jwtSign(tokenToSign);
 
-  sendEmailForEmailVerfication(createdUser.email, jwtEmailToken);
+  reply.setCookie("email", jwtEmailToken);
+
+  sendEmailForEmailVerfication(createdUser.email, otp);
 
   return reply.status(201).send({
     result: "Success",

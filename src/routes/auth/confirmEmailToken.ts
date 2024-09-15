@@ -17,10 +17,37 @@ const schema = {
   summary: "Given a email token, marks user email as verified",
 } as FastifySchema;
 
+const invalidEmailToken = {
+  error: "Email Token Invalid",
+  message: "Email token provided is invalid.",
+};
+
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { token } = request.body as ConfirmEmailTokenRequestBodyType;
 
-  const verifiedToken: EmailTokenType = await request.decodeToken(token);
+  const emailCookie = request.cookies["email"];
+
+  if (!emailCookie) {
+    return reply.status(401).send(invalidEmailToken);
+  }
+
+  const unsignedEmailCookie = request.unsignCookie(emailCookie).value;
+
+  if (!unsignedEmailCookie) {
+    return reply.status(401).send(invalidEmailToken);
+  }
+
+  let verifiedToken: EmailTokenType;
+  try {
+    verifiedToken = await request.decodeToken(unsignedEmailCookie);
+  } catch (err) {
+    console.log(err);
+    return reply.status(401).send(invalidEmailToken);
+  }
+
+  if (verifiedToken.token !== token) {
+    return reply.status(401).send(invalidEmailToken);
+  }
 
   if (new Date() > verifiedToken.expires) {
     return reply.status(401).send({
