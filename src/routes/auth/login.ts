@@ -8,6 +8,8 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import { compareSync } from "bcrypt";
 import LoginRequestBodyType from "../../schemas/LoginRequestBody";
+import { generateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
+import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 
 const url = "/login";
 const method = "POST";
@@ -40,9 +42,18 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   }
 
   if (!user.emailVerified) {
+    const otp = await generateEmailTokenCookie(user.email, reply);
+
+    sendEmailForEmailVerfication({
+      email: user.email,
+      firstName: user.firstName,
+      token: otp,
+    });
+
     return reply.status(403).send({
       error: "Email Not Verified.",
-      message: "Email for this user is not verified.",
+      message:
+        "Email for this user is not verified. An email has been sent for verification.",
     });
   }
 
