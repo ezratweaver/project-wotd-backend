@@ -10,7 +10,7 @@ import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
-import { genereateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
+import { generateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
 
 const url = "/signup";
 const method = "POST";
@@ -46,7 +46,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const otp = await genereateEmailTokenCookie(createdUser.email, reply);
+  const otp = await generateEmailTokenCookie(createdUser.email, reply);
 
   sendEmailForEmailVerfication({
     email: createdUser.email,

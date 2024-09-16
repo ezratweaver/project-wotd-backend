@@ -8,7 +8,7 @@ export interface EmailTokenType {
   expires: Date;
 }
 
-export const genereateEmailTokenCookie = async (
+export const generateEmailTokenCookie = async (
   email: string,
   reply: FastifyReply,
 ) => {
