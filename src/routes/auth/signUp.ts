@@ -9,9 +9,8 @@ import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
-import { dateWithOffset } from "../../helper/dateHelpers";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
-import { generateOTP } from "../../helper/otpHelpers";
+import { genereateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
 
 const url = "/signup";
 const method = "POST";
@@ -21,12 +20,6 @@ const schema = {
   summary:
     "Creates user based off given information, then gives user a cookie with a JWT for authentication",
 } as FastifySchema;
-
-export interface EmailTokenType {
-  token: string;
-  email: string;
-  expires: Date;
-}
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { email, firstName, password } = request.body as SignUpRequestBodyType;
@@ -53,17 +46,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const otp = generateOTP(16);
-
-  const tokenToSign: EmailTokenType = {
-    token: otp,
-    email: createdUser.email,
-    expires: dateWithOffset(1),
-  };
-
-  const jwtEmailToken = await reply.jwtSign(tokenToSign);
-
-  reply.setCookie("email", jwtEmailToken);
+  const otp = await genereateEmailTokenCookie(createdUser.email, reply);
 
   sendEmailForEmailVerfication({
     email: createdUser.email,

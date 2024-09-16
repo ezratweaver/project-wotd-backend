@@ -6,8 +6,8 @@ import {
 } from "fastify";
 import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenRequestBody";
 import { $ref } from "../../app";
-import { EmailTokenType } from "./signUp";
 import prisma from "../../database";
+import { EmailTokenType } from "../../utils/generateEmailTokenCookie";
 
 const url = "/confirm-email-token";
 const method = "POST";
@@ -41,7 +41,6 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   try {
     verifiedToken = await request.decodeToken(unsignedEmailCookie);
   } catch (err) {
-    console.log(err);
     return reply.status(401).send(invalidEmailToken);
   }
 
