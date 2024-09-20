@@ -7,6 +7,7 @@ import {
 import ResendEmailTokenRequestBodyType from "../../schemas/ResendEmailTokenRequestBody";
 import { $ref } from "../../app";
 import prisma from "../../database";
+import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/resend-email-token";
 const method = "POST";
@@ -32,6 +33,24 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       message: "A user with the given email does not exist.",
     });
   }
+
+  if (userFromDB.emailVerified) {
+    return reply.status(401).send({
+      error: "Email Already Verified",
+      message: "This email has already been verified.",
+    });
+  }
+
+  await sendEmailAndSetCookie({
+    email: userFromDB.email,
+    firstName: userFromDB.firstName,
+    reply,
+  });
+
+  return reply.status(201).send({
+    result: "Success",
+    message: "A token has been resent to the email address provided.",
+  });
 };
 
 const resendEmailToken = async (fastify: FastifyInstance) => {
@@ -40,6 +59,10 @@ const resendEmailToken = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       body: $ref("ResendEmailTokenRequestBody"),
+      response: {
+        401: $ref("GenericResponse"),
+        201: $ref("GenericResponse"),
+      },
     },
     handler,
     url,
