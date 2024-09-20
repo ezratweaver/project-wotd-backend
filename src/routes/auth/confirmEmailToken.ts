@@ -7,7 +7,7 @@ import {
 import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenRequestBody";
 import { $ref } from "../../app";
 import prisma from "../../database";
-import { EmailTokenType } from "../../utils/generateEmailTokenCookie";
+import { EmailTokenType } from "../../helper/generateEmailTokenCookie";
 
 const url = "/confirm-email-token";
 const method = "POST";

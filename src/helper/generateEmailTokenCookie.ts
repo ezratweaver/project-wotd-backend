@@ -1,6 +1,6 @@
 import { FastifyReply } from "fastify";
-import { generateOTP } from "../helper/otpHelpers";
-import { dateWithOffset } from "../helper/dateHelpers";
+import { generateOTP } from "./otpHelpers";
+import { dateWithOffset } from "./dateHelpers";
 
 export interface EmailTokenType {
   token: string;

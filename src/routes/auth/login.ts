@@ -8,7 +8,7 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import { compareSync } from "bcrypt";
 import LoginRequestBodyType from "../../schemas/LoginRequestBody";
-import { generateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
+import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 
 const url = "/login";

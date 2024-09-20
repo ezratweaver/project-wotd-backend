@@ -10,7 +10,7 @@ import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
-import { generateEmailTokenCookie } from "../../utils/generateEmailTokenCookie";
+import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
 
 const url = "/signup";
 const method = "POST";
