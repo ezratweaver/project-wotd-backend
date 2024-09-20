@@ -51,7 +51,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
 
     return reply.status(403).send({
-      error: "Email Not Verified.",
+      error: "Email Not Verified",
       message:
         "Email for this user is not verified. An email has been sent for verification.",
     });
