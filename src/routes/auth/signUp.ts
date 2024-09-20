@@ -11,6 +11,7 @@ import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
+import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/signup";
 const method = "POST";
@@ -46,12 +47,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const otp = await generateEmailTokenCookie(createdUser.email, reply);
-
-  sendEmailForEmailVerfication({
+  await sendEmailAndSetCookie({
     email: createdUser.email,
     firstName: createdUser.firstName,
-    token: otp,
+    reply,
   });
 
   return reply.status(201).send({

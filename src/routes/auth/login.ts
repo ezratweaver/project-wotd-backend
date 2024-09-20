@@ -10,6 +10,7 @@ import { compareSync } from "bcrypt";
 import LoginRequestBodyType from "../../schemas/LoginRequestBody";
 import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
+import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/login";
 const method = "POST";
@@ -42,12 +43,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   }
 
   if (!user.emailVerified) {
-    const otp = await generateEmailTokenCookie(user.email, reply);
-
-    sendEmailForEmailVerfication({
+    await sendEmailAndSetCookie({
       email: user.email,
       firstName: user.firstName,
-      token: otp,
+      reply,
     });
 
     return reply.status(403).send({
