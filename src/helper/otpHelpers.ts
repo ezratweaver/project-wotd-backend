@@ -1,6 +1,6 @@
 export function generateOTP(length: number) {
   const allowedCharacters =
-    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+";
+    "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
   let otp = "";
   for (let i = 1; i <= length; i++) {
