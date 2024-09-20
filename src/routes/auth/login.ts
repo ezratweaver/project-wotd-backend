@@ -11,6 +11,7 @@ import LoginRequestBodyType from "../../schemas/LoginRequestBody";
 import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
 import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
+import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
 
 const url = "/login";
 const method = "POST";
@@ -59,12 +60,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const passwordIsValid = compareSync(password + user.salt, user.password);
 
   if (passwordIsValid) {
-    const authentication = await reply.jwtSign({
-      userKey: user.userKey,
+    await setAuthenticationCookie({
       email: user.email,
+      userKey: user.userKey,
+      reply,
     });
-
-    reply.setCookie("authentication", authentication);
 
     return reply.status(200).send({
       result: "Success",

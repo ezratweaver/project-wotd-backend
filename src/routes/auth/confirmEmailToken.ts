@@ -8,6 +8,7 @@ import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenReq
 import { $ref } from "../../app";
 import prisma from "../../database";
 import { EmailTokenType } from "../../helper/generateEmailTokenCookie";
+import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
 
 const url = "/confirm-email-token";
 const method = "POST";
@@ -84,12 +85,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const authentication = await reply.jwtSign({
-    userKey: verifiedUser.userKey,
+  await setAuthenticationCookie({
     email: verifiedUser.email,
+    userKey: verifiedUser.userKey,
+    reply,
   });
-
-  reply.setCookie("authentication", authentication);
 
   return reply.status(200).send({
     result: "Success",
