@@ -7,6 +7,7 @@ import fetchWOTD from "./wotd/fetchWOTD";
 import learnWOTD from "./wotd/learnWOTD";
 import confirmEmailToken from "./auth/confirmEmailToken";
 import resendEmailToken from "./auth/resendEmailToken";
+import fetchAllLearnWOTD from "./wotd/fetchAllLearnedWOTD";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -17,6 +18,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(learnWOTD);
   server.register(confirmEmailToken);
   server.register(resendEmailToken);
+  server.register(fetchAllLearnWOTD);
 };
 
 export default registerRoutes;
