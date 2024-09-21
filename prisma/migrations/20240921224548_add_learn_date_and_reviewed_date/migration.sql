@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "UserLearned" ADD COLUMN     "dateLearned" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ADD COLUMN     "lastReviewed" TIMESTAMP(3);

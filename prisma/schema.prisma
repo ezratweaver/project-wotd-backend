@@ -22,6 +22,8 @@ model UserLearned {
   userLearnedKey Int           @id @default(autoincrement())
   wotdKey        Int
   userKey        Int
+  dateLearned    DateTime      @default(now())
+  lastReviewed   DateTime?
   user           User?         @relation(fields: [userKey], references: [userKey])
   word           WordOfTheDay? @relation(fields: [wotdKey], references: [wotdKey])
 }
