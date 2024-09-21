@@ -8,6 +8,7 @@ import { FetchWOTDRequestParams } from "./schemas/FetchWOTDRequestParams";
 import { LearnWOTDRequestBody } from "./schemas/LearnWOTDRequestBody";
 import { ConfirmEmailTokenRequestBody } from "./schemas/ConfirmEmailTokenRequestBody";
 import { ResendEmailTokenRequestBody } from "./schemas/ResendEmailTokenRequestBody";
+import { FetchAllLearnedWOTDResponse } from "./schemas/FetchAllLearnWOTDResponse";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -20,6 +21,7 @@ const schemas = {
   LearnWOTDRequestBody,
   ConfirmEmailTokenRequestBody,
   ResendEmailTokenRequestBody,
+  FetchAllLearnedWOTDResponse,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
