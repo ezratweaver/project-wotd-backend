@@ -15,3 +15,22 @@ export const dateSecondsFromNow = (seconds: number, date?: Date | string) => {
   const currentDate = date ? new Date(date) : new Date();
   return new Date(currentDate.getTime() + seconds * 1000);
 };
+
+export const isDateXDaysFromNow = (date: Date, offset: number): boolean => {
+  const inputDate = dateWithoutHours(date);
+
+  const offsetDate = dateWithoutHours(dateWithOffset(offset));
+
+  return inputDate.getTime() === offsetDate.getTime();
+};
+
+export const isDateXDaysFromNowOrFarther = (
+  date: Date,
+  offset: number,
+): boolean => {
+  const inputDate = dateWithoutHours(date);
+
+  const offsetDate = dateWithoutHours(dateWithOffset(offset));
+
+  return inputDate.getTime() <= offsetDate.getTime();
+};
