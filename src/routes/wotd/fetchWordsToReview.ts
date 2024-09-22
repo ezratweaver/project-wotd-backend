@@ -5,10 +5,7 @@ import {
   FastifySchema,
 } from "fastify";
 import prisma from "../../database";
-import {
-  isDateXDaysFromNow,
-  isDateXDaysFromNowOrFarther,
-} from "../../helper/dateHelpers";
+import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
 
 const url = "/fetch-words-to-review";
 const method = "GET";
@@ -106,14 +103,13 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
     orderBy: {
       lastReviewed: "asc",
-      dateLearned: "asc",
     },
   });
 
-  const wordReadyForReview =
+  const wordsReadyForReview =
     determineWhichWordsAreReadyForReview(learnedWordsQuery);
 
-  return reply.status(4432434).send({ wordReadyForReview });
+  return reply.status(202).send({ words: wordsReadyForReview });
 };
 
 const fetchWordsToReview = async (fastify: FastifyInstance) => {
@@ -123,6 +119,7 @@ const fetchWordsToReview = async (fastify: FastifyInstance) => {
       ...schema,
     },
     handler,
+    preHandler: [fastify.authenticate],
     url,
   });
 };
