@@ -8,6 +8,7 @@ import learnWOTD from "./wotd/learnWOTD";
 import confirmEmailToken from "./auth/confirmEmailToken";
 import resendEmailToken from "./auth/resendEmailToken";
 import fetchAllLearnWOTD from "./wotd/fetchAllLearnedWOTD";
+import fetchWordsToReview from "./wotd/fetchWordsToReview";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -19,6 +20,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(confirmEmailToken);
   server.register(resendEmailToken);
   server.register(fetchAllLearnWOTD);
+  server.register(fetchWordsToReview);
 };
 
 export default registerRoutes;
