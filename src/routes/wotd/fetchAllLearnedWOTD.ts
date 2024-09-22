@@ -37,7 +37,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     .map((learnedWord) => learnedWord.word)
     .filter((word) => word !== null);
 
-  return reply.status(201).send({
+  return reply.status(202).send({
     words: learnedWords,
   });
 };
@@ -48,7 +48,7 @@ const fetchAllLearnWOTD = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       response: {
-        201: $ref("FetchAllLearnedWOTDResponse"),
+        202: $ref("FetchAllLearnedWOTDResponse"),
       },
     },
     preHandler: [fastify.authenticate],
