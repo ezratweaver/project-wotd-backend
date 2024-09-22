@@ -6,6 +6,7 @@ import {
 } from "fastify";
 import prisma from "../../database";
 import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
+import { $ref } from "../../app";
 
 const url = "/fetch-words-to-review";
 const method = "GET";
@@ -117,6 +118,9 @@ const fetchWordsToReview = async (fastify: FastifyInstance) => {
     method,
     schema: {
       ...schema,
+      response: {
+        202: $ref("FetchWordsToReviewResponse"),
+      },
     },
     handler,
     preHandler: [fastify.authenticate],
