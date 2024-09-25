@@ -41,7 +41,7 @@ const markWordsReviewed = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       response: {
-        200: null,
+        200: {},
       },
     },
     handler,
