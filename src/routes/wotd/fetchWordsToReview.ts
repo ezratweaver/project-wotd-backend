@@ -7,6 +7,7 @@ import {
 import prisma from "../../database";
 import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
 import { $ref } from "../../app";
+import { PrismaClient } from "@prisma/client";
 
 const url = "/fetch-words-to-review";
 const method = "GET";
@@ -92,10 +93,11 @@ const determineWhichWordsAreReadyForReview = (
   }
 };
 
-const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const userKey = request.user.userKey;
-
-  const learnedWordsQuery = await prisma.userLearned.findMany({
+export const queryWordsReadyForReview = async (
+  prismaClient: PrismaClient,
+  userKey: number,
+) => {
+  const learnedWordsQuery = await prismaClient.userLearned.findMany({
     where: {
       userKey,
     },
@@ -107,8 +109,13 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const wordsReadyForReview =
-    determineWhichWordsAreReadyForReview(learnedWordsQuery);
+  return determineWhichWordsAreReadyForReview(learnedWordsQuery);
+};
+
+const handler = async (request: FastifyRequest, reply: FastifyReply) => {
+  const userKey = request.user.userKey;
+
+  const wordsReadyForReview = await queryWordsReadyForReview(prisma, userKey);
 
   return reply.status(202).send({ words: wordsReadyForReview });
 };
