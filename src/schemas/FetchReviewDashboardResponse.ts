@@ -9,12 +9,13 @@ const learnedWord = z.object({
   date: z.date(),
 });
 
-export const FetchAllLearnedWOTDResponse = z.object({
+export const FetchReviewDashboardResponse = z.object({
   words: z.array(learnedWord),
+  wordsToReview: z.number(),
 });
 
-type FetchAllLearnedWOTDResponseType = z.infer<
-  typeof FetchAllLearnedWOTDResponse
+type FetchReviewDashboardResponseType = z.infer<
+  typeof FetchReviewDashboardResponse
 >;
 
-export default FetchAllLearnedWOTDResponseType;
+export default FetchReviewDashboardResponseType;

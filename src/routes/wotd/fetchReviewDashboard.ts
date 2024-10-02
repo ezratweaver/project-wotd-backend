@@ -6,14 +6,15 @@ import {
 } from "fastify";
 import prisma from "../../database";
 import { $ref } from "../../app";
+import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
 
-const url = "/fetch-all-learned-wotd";
+const url = "/fetch-review-dashboard";
 const method = "GET";
 const schema = {
-  operationId: "fetchAllLearnedWOTD",
+  operationId: "fetchReviewDashboard",
   tags: ["WOTD"],
   summary:
-    "Returns all learned words from userKey found in session ordered by desc date.",
+    "Returns all learned words from userKey found in session ordered by desc date. Along with the amount of words due for review.",
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -27,9 +28,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       word: true,
     },
     orderBy: {
-      word: {
-        date: "desc",
-      },
+      lastReviewed: "asc",
     },
   });
 
@@ -37,12 +36,31 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     .map((learnedWord) => learnedWord.word)
     .filter((word) => word !== null);
 
+  let wordsDueCount = 0;
+
+  for (const learnedWord of learnedWordsQuery) {
+    if (!learnedWord.lastReviewed && learnedWord.word) {
+      wordsDueCount += 1;
+    }
+  }
+
+  for (const learnedWord of learnedWordsQuery) {
+    if (
+      learnedWord.lastReviewed &&
+      learnedWord.word &&
+      isDateXDaysFromNowOrFarther(learnedWord.lastReviewed, 3)
+    ) {
+      wordsDueCount += 1;
+    }
+  }
+
   return reply.status(202).send({
     words: learnedWords,
+    wordsToReview: wordsDueCount,
   });
 };
 
-const fetchAllLearnWOTD = async (fastify: FastifyInstance) => {
+const fetchReviewDashboard = async (fastify: FastifyInstance) => {
   fastify.route({
     method,
     schema: {
@@ -57,4 +75,4 @@ const fetchAllLearnWOTD = async (fastify: FastifyInstance) => {
   });
 };
 
-export default fetchAllLearnWOTD;
+export default fetchReviewDashboard;

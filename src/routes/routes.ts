@@ -7,7 +7,7 @@ import fetchWOTD from "./wotd/fetchWOTD";
 import learnWOTD from "./wotd/learnWOTD";
 import confirmEmailToken from "./auth/confirmEmailToken";
 import resendEmailToken from "./auth/resendEmailToken";
-import fetchAllLearnWOTD from "./wotd/fetchAllLearnedWOTD";
+import fetchReviewDashboard from "./wotd/fetchReviewDashboard";
 import fetchWordsToReview from "./wotd/fetchWordsToReview";
 import markWordsReviewed from "./wotd/markWordsReviewed";
 
@@ -20,7 +20,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(learnWOTD);
   server.register(confirmEmailToken);
   server.register(resendEmailToken);
-  server.register(fetchAllLearnWOTD);
+  server.register(fetchReviewDashboard);
   server.register(fetchWordsToReview);
   server.register(markWordsReviewed);
 };
