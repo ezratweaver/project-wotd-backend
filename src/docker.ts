@@ -33,8 +33,9 @@ const containerIsRunning = async (containerName: string) => {
 
 const containerExists = async (containerName: string) => {
   try {
-    await $`docker ps -a --filter name=${containerName}`;
-    return true;
+    const response = await $`docker ps -a --filter name=${containerName}`;
+
+    return response.stdout.includes(containerName);
   } catch (error) {
     console.log(error);
     return false;
