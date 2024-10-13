@@ -32,5 +32,5 @@ export const isDateXDaysFromNowOrFarther = (
 
   const offsetDate = dateWithoutHours(dateWithOffset(offset));
 
-  return inputDate.getTime() >= offsetDate.getTime();
+  return inputDate.getTime() <= offsetDate.getTime();
 };

@@ -20,10 +20,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const wordsReviewed = await queryWordsReadyForReview(prisma, userKey);
 
-  for (const word of wordsReviewed) {
+  if (wordsReviewed.length > 0) {
+    const wotdKeys = wordsReviewed.map((word) => word.wotdKey);
+
     await prisma.userLearned.updateMany({
       where: {
-        wotdKey: word.wotdKey,
+        wotdKey: { in: wotdKeys },
         userKey,
       },
       data: {
