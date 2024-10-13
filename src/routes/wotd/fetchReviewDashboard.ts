@@ -48,7 +48,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     if (
       learnedWord.lastReviewed &&
       learnedWord.word &&
-      isDateXDaysFromNowOrFarther(learnedWord.lastReviewed, 3)
+      isDateXDaysFromNowOrFarther(learnedWord.lastReviewed, -3)
     ) {
       wordsDueCount += 1;
     }

@@ -37,7 +37,7 @@ interface LearnedWordsQuery {
 const determineWhichWordsAreReadyForReview = (
   words: LearnedWordsQuery[],
   maxReviewLength: number = 10,
-  daysSinceLastReviewOffset: number = 3,
+  daysSinceLastReviewOffset: number = -3,
 ) => {
   const wordsToReview = [];
   /*
