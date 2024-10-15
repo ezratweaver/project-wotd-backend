@@ -8,8 +8,6 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import { compareSync } from "bcrypt";
 import LoginRequestBodyType from "../../schemas/LoginRequestBody";
-import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
-import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
 import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
 
