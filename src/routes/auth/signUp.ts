@@ -9,8 +9,6 @@ import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
-import { sendEmailForEmailVerfication } from "../../helper/emailForEmailVerification";
-import { generateEmailTokenCookie } from "../../helper/generateEmailTokenCookie";
 import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/signup";
