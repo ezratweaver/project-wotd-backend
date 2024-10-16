@@ -33,7 +33,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   }
 
   const salt = randomBytes(16).toString("hex");
-  const hashedPassword = hashSync(password + salt, 1);
+  const hashedPassword = hashSync(password + salt, 10);
 
   const createdUser = await prisma.user.create({
     data: {
