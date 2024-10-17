@@ -5,17 +5,17 @@ import {
   FastifySchema,
 } from "fastify";
 
-const url = "/fetch-wotd";
+const url = "/";
 const method = "GET";
 const schema = {
-  operationId: "fetchWOTD",
-  tags: ["WOTD"],
-  summary: "Given a date, fetches the word of the day for that date",
+  operationId: "",
+  tags: [""],
+  summary: "",
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {};
 
-const fetchWOTD = async (fastify: FastifyInstance) => {
+const routeName = async (fastify: FastifyInstance) => {
   fastify.route<{ Body: {} }>({
     method,
     schema: {
@@ -26,4 +26,4 @@ const fetchWOTD = async (fastify: FastifyInstance) => {
   });
 };
 
-export default fetchWOTD;
+export default routeName;
