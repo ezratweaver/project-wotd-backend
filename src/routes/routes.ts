@@ -10,6 +10,7 @@ import resendEmailToken from "./auth/resendEmailToken";
 import fetchReviewDashboard from "./wotd/fetchReviewDashboard";
 import fetchWordsToReview from "./wotd/fetchWordsToReview";
 import markWordsReviewed from "./wotd/markWordsReviewed";
+import addWOTD from "./admin/addWOTD";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -23,6 +24,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(fetchReviewDashboard);
   server.register(fetchWordsToReview);
   server.register(markWordsReviewed);
+  server.register(addWOTD);
 };
 
 export default registerRoutes;
