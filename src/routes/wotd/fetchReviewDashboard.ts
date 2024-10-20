@@ -66,7 +66,7 @@ const fetchReviewDashboard = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       response: {
-        202: $ref("FetchAllLearnedWOTDResponse"),
+        202: $ref("FetchReviewDashboardResponse"),
       },
     },
     preHandler: [fastify.authenticate],
