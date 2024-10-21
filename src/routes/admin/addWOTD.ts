@@ -58,7 +58,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     if (!response.SynthesisTask.TaskId)
       throw new Error("No TaskId was returned.");
 
-    pronunciationS3Key = `${word}.${response.SynthesisTask.TaskId}.mp3`;
+    pronunciationS3Key = `${word.word}.${response.SynthesisTask.TaskId}.mp3`;
   } catch (error) {
     console.log({
       message: "Failed to create pronunciation sound and put it into S3.",
