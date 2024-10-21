@@ -29,12 +29,13 @@ model UserLearned {
 }
 
 model WordOfTheDay {
-  wotdKey       Int           @id @default(autoincrement())
-  word          String        @unique
-  definition    String
-  pronunciation String
-  partOfSpeech  String
-  usage         String
-  date          DateTime
-  usersLearned  UserLearned[]
+  wotdKey            Int           @id @default(autoincrement())
+  word               String        @unique
+  definition         String
+  pronunciation      String
+  pronunciationS3Key String        @unique
+  partOfSpeech       String
+  usage              String
+  date               DateTime
+  usersLearned       UserLearned[]
 }
