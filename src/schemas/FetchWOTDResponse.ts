@@ -12,7 +12,6 @@ export const Word = z.object({
 
 export const FetchWOTDResponse = z.object({
   wordData: Word.optional(),
-  wordNextDay: z.boolean(),
   wordPrevDay: z.boolean(),
 });
 

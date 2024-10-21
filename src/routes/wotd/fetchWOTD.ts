@@ -24,7 +24,6 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const wordDateWithoutHours = dateWithoutHours(wordDate);
 
-  const nextWordDate = dateWithoutHours(dateWithOffset(1, wordDate));
   const prevWordDate = dateWithoutHours(dateWithOffset(-1, wordDate));
 
   const foundWord = await prisma.wordOfTheDay.findFirst({
@@ -33,13 +32,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  const nextWord = await prisma.wordOfTheDay.count({
-    where: {
-      date: nextWordDate,
-    },
-  });
-
-  const prevWord = await prisma.wordOfTheDay.count({
+  const previousDayWord = await prisma.wordOfTheDay.count({
     where: {
       date: prevWordDate,
     },
@@ -54,8 +47,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   return reply.status(200).send({
     wordData: foundWord ? { ...foundWord, learned: !!userLearned } : undefined,
-    wordNextDay: nextWord > 0,
-    wordPrevDay: prevWord > 0,
+    wordPrevDay: previousDayWord > 0,
   });
 };
 
