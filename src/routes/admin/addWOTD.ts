@@ -40,6 +40,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(401).send();
   }
 
+  let pronunciationS3Key: string;
   try {
     const voiceCommand = new StartSpeechSynthesisTaskCommand({
       OutputFormat: "mp3",
@@ -54,7 +55,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     if (!response.SynthesisTask)
       throw new Error("No SynthesisTask was returned.");
 
-    if (!response.SynthesisTask) throw new Error("No output URI was returned.");
+    if (!response.SynthesisTask.TaskId)
+      throw new Error("No TaskId was returned.");
+
+    pronunciationS3Key = `${word}.${response.SynthesisTask.TaskId}.mp3`;
   } catch (error) {
     console.log({
       message: "Failed to create pronunciation sound and put it into S3.",
@@ -69,6 +73,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   await prisma.wordOfTheDay.create({
     data: {
       ...word,
+      pronunciationS3Key,
     },
   });
 
