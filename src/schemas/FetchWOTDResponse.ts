@@ -4,6 +4,7 @@ export const Word = z.object({
   word: z.string(),
   definition: z.string(),
   pronunciation: z.string(),
+  pronunciationUrl: z.string(),
   partOfSpeech: z.string(),
   usage: z.string(),
   date: z.date(),

@@ -8,6 +8,8 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import FetchWOTDRequestParamsType from "../../schemas/FetchWOTDRequestParams";
 import { dateWithoutHours, dateWithOffset } from "../../helper/dateHelpers";
+import { GetObjectCommand, S3Client } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 const url = "/fetch-wotd/:wordDate";
 const method = "GET";
@@ -16,6 +18,23 @@ const schema = {
   tags: ["WOTD"],
   summary: "Given a date, fetches the word of the day for that date",
 } as FastifySchema;
+
+const createPresignedGETUrl = ({ s3Key }: { s3Key: string }) => {
+  const s3Client = new S3Client({
+    region: process.env.AWS_REGION,
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY ?? "",
+      secretAccessKey: process.env.AWS_SECREY_KEY ?? "",
+    },
+  });
+
+  const command = new GetObjectCommand({
+    Bucket: process.env.AWS_BUCKET_NAME,
+    Key: s3Key,
+  });
+
+  return getSignedUrl(s3Client, command);
+};
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { wordDate } = request.params as FetchWOTDRequestParamsType;
@@ -46,7 +65,15 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   return reply.status(200).send({
-    wordData: foundWord ? { ...foundWord, learned: !!userLearned } : undefined,
+    wordData: foundWord
+      ? {
+          ...foundWord,
+          learned: !!userLearned,
+          pronunciationUrl: await createPresignedGETUrl({
+            s3Key: foundWord?.pronunciationS3Key,
+          }),
+        }
+      : undefined,
     wordPrevDay: previousDayWord > 0,
   });
 };
