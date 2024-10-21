@@ -17,6 +17,7 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
+  return reply.status(501).send();
   const { word } = request.params as PlayWOTDRequestParamsType;
 
   const wordFromDB = await prisma.wordOfTheDay.findUnique({
@@ -26,11 +27,6 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   if (!wordFromDB) return reply.status(204).send();
-
-  reply
-    .type("audio/mp3")
-    .status(200)
-    .send(wordFromDB?.pronunciationSound.toString("base64url"));
 };
 
 const playWOTD = async (fastify: FastifyInstance) => {
