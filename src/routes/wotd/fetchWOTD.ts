@@ -36,7 +36,7 @@ const createPresignedGETUrl = ({ s3Key }: { s3Key: string }) => {
   });
 
   const command = new GetObjectCommand({
-    Bucket: process.env.AWS_BUCKET_NAME,
+    Bucket: AWS_BUCKET_NAME,
     Key: s3Key,
   });
 
@@ -77,7 +77,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
           ...foundWord,
           learned: !!userLearned,
           pronunciationUrl: await createPresignedGETUrl({
-            s3Key: foundWord?.pronunciationS3Key,
+            s3Key: foundWord.pronunciationS3Key,
           }),
         }
       : undefined,
