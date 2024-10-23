@@ -8,7 +8,7 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import { compareSync } from "bcrypt";
 import LoginRequestBodyType from "../../schemas/LoginRequestBody";
-import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
+import sendVerificationEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
 
 const url = "/login";
@@ -42,7 +42,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   }
 
   if (!user.emailVerified) {
-    await sendEmailAndSetCookie({
+    await sendVerificationEmailAndSetCookie({
       email: user.email,
       firstName: user.firstName,
       reply,

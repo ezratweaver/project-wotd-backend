@@ -2,7 +2,7 @@ import { FastifyReply } from "fastify";
 import { generateEmailTokenCookie } from "../helper/generateEmailTokenCookie";
 import { sendEmailForEmailVerfication } from "../helper/emailForEmailVerification";
 
-const sendEmailAndSetCookie = async ({
+const sendVerificationEmailAndSetCookie = async ({
   email,
   firstName,
   reply,
@@ -20,4 +20,4 @@ const sendEmailAndSetCookie = async ({
   });
 };
 
-export default sendEmailAndSetCookie;
+export default sendVerificationEmailAndSetCookie;

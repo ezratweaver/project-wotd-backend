@@ -7,7 +7,7 @@ import {
 import ResendEmailTokenRequestBodyType from "../../schemas/ResendEmailTokenRequestBody";
 import { $ref } from "../../app";
 import prisma from "../../database";
-import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
+import sendVerificationEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/resend-email-token";
 const method = "POST";
@@ -41,7 +41,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  await sendEmailAndSetCookie({
+  await sendVerificationEmailAndSetCookie({
     email: userFromDB.email,
     firstName: userFromDB.firstName,
     reply,

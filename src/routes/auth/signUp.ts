@@ -9,7 +9,7 @@ import prisma from "../../database";
 import SignUpRequestBodyType from "../../schemas/SignUpRequestBody";
 import { hashSync } from "bcrypt";
 import { randomBytes } from "crypto";
-import sendEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
+import sendVerificationEmailAndSetCookie from "../../utils/sendEmailAndSetCookie";
 
 const url = "/signup";
 const method = "POST";
@@ -45,7 +45,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  await sendEmailAndSetCookie({
+  await sendVerificationEmailAndSetCookie({
     email: createdUser.email,
     firstName: createdUser.firstName,
     reply,
