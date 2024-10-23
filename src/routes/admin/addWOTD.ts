@@ -40,6 +40,19 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(401).send();
   }
 
+  const wordAlreadyExists = await prisma.wordOfTheDay.findUnique({
+    where: {
+      word: word.word,
+    },
+  });
+
+  if (wordAlreadyExists) {
+    return reply.status(409).send({
+      error: "Word Already Exists",
+      message: "Word given already exists in database.",
+    });
+  }
+
   let pronunciationS3Key: string;
   try {
     const voiceCommand = new StartSpeechSynthesisTaskCommand({
