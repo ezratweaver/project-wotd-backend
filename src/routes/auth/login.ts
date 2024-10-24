@@ -26,7 +26,10 @@ const invalidUserNameOrPassword = {
 };
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { email, password } = request.body as LoginRequestBodyType;
+  const requestBody = request.body as LoginRequestBodyType;
+
+  const email = requestBody.email.toLowerCase();
+  const password = requestBody.password;
 
   if (request.cookies.authentication) {
     return reply.status(400).send({

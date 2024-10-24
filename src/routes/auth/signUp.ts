@@ -21,7 +21,10 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { email, firstName, password } = request.body as SignUpRequestBodyType;
+  const requestBody = request.body as SignUpRequestBodyType;
+
+  const { firstName, password } = requestBody;
+  const email = requestBody.email.toLowerCase();
 
   const existingUser = await prisma.user.findUnique({ where: { email } });
 

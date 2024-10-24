@@ -19,7 +19,9 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { email } = request.body as ResendEmailTokenRequestBodyType;
+  const email = (
+    request.body as ResendEmailTokenRequestBodyType
+  ).email.toLowerCase();
 
   const userFromDB = await prisma.user.findUnique({
     where: {
