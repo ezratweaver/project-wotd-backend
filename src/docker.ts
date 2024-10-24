@@ -51,7 +51,7 @@ const buildPostgresContainer = async () => {
 };
 
 const buildSMTP4DevContainer = async () => {
-  await $`docker run -d --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_WEB_PORT}:${SMTP4DEV_WEB_PORT} -p ${SMTP4DEV_SMTP_PORT}:${SMTP4DEV_SMTP_PORT} rnwood/smtp4dev`;
+  await $`docker run --name ${SMTP4DEV_NAME} -p ${SMTP4DEV_WEB_PORT}:80 -p ${SMTP4DEV_SMTP_PORT}:25 -d rnwood/smtp4dev`;
 };
 
 const startOrBuildContainer = async (
