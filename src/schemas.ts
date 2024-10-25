@@ -11,6 +11,7 @@ import { ResendEmailTokenRequestBody } from "./schemas/ResendEmailTokenRequestBo
 import { FetchReviewDashboardResponse } from "./schemas/FetchReviewDashboardResponse";
 import { FetchWordsToReviewResponse } from "./schemas/FetchWordsToReviewResponse";
 import { AddWOTDRequestBody } from "./schemas/AddWOTDRequestBody";
+import { ForgotPasswordRequestBody } from "./schemas/ForgotPasswordRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -26,6 +27,7 @@ const schemas = {
   FetchReviewDashboardResponse,
   FetchWordsToReviewResponse,
   AddWOTDRequestBody,
+  ForgotPasswordRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
