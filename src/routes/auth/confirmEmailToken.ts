@@ -9,6 +9,7 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import { EmailTokenType } from "../../helper/generateEmailTokenCookie";
 import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
+import verifyToken from "../../utils/verifyToken";
 
 const url = "/confirm-email-token";
 const method = "POST";
@@ -18,43 +19,17 @@ const schema = {
   summary: "Given a email token, marks user email as verified",
 } as FastifySchema;
 
-const invalidEmailToken = {
-  error: "Email Token Invalid",
-  message: "Email token provided is invalid.",
-};
-
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const { token } = request.body as ConfirmEmailTokenRequestBodyType;
 
   const emailCookie = request.cookies["email"];
 
-  if (!emailCookie) {
-    return reply.status(401).send(invalidEmailToken);
-  }
-
-  const unsignedEmailCookie = request.unsignCookie(emailCookie).value;
-
-  if (!unsignedEmailCookie) {
-    return reply.status(401).send(invalidEmailToken);
-  }
-
-  let verifiedToken: EmailTokenType;
-  try {
-    verifiedToken = await request.decodeToken(unsignedEmailCookie);
-  } catch (err) {
-    return reply.status(401).send(invalidEmailToken);
-  }
-
-  if (verifiedToken.token !== token) {
-    return reply.status(401).send(invalidEmailToken);
-  }
-
-  if (new Date() > verifiedToken.expires) {
-    return reply.status(401).send({
-      error: "Email Token Expired",
-      message: "Token to verify email has already expired.",
-    });
-  }
+  const verifiedToken = await verifyToken({
+    emailCookie,
+    userGivenToken: token,
+    request,
+    reply,
+  });
 
   const unverifiedUser = await prisma.user.findUnique({
     where: {
