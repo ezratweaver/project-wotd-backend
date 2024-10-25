@@ -12,6 +12,7 @@ import { FetchReviewDashboardResponse } from "./schemas/FetchReviewDashboardResp
 import { FetchWordsToReviewResponse } from "./schemas/FetchWordsToReviewResponse";
 import { AddWOTDRequestBody } from "./schemas/AddWOTDRequestBody";
 import { ForgotPasswordRequestBody } from "./schemas/ForgotPasswordRequestBody";
+import { ConfirmForgotPasswordRequestBody } from "./schemas/ConfirmForgotPasswordRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -28,6 +29,7 @@ const schemas = {
   FetchWordsToReviewResponse,
   AddWOTDRequestBody,
   ForgotPasswordRequestBody,
+  ConfirmForgotPasswordRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
