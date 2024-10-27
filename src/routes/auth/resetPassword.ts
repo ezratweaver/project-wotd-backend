@@ -41,14 +41,14 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
 
-  let verifiedCookie: { allowedToReset: boolean; email: string };
+  let verifiedToken: { allowedToReset: boolean; email: string };
   try {
-    verifiedCookie = await request.decodeToken(unsignedResetPasswordCookie);
+    verifiedToken = await request.decodeToken(unsignedResetPasswordCookie);
   } catch (err) {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
 
-  if (!verifiedCookie.allowedToReset) {
+  if (!verifiedToken.allowedToReset) {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
 
@@ -61,7 +61,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       salt,
     },
     where: {
-      email: verifiedCookie.email,
+      email: verifiedToken.email,
     },
   });
 
@@ -80,6 +80,10 @@ const resetPassword = async (fastify: FastifyInstance) => {
     schema: {
       ...schema,
       body: $ref("ResetPasswordRequestBody"),
+      response: {
+        401: $ref("GenericResponse"),
+        200: $ref("GenericResponse"),
+      },
     },
     handler,
     url,

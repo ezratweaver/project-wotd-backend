@@ -30,7 +30,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   if (!accountFromDb) {
-    return reply.status(201).send();
+    return reply.status(200).send();
   }
 
   await sendForgotPasswordEmailAndSetCookie({
@@ -39,7 +39,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     reply,
   });
 
-  return reply.status(201).send();
+  return reply.status(200).send();
 };
 
 const forgotPassword = async (fastify: FastifyInstance) => {
