@@ -13,6 +13,7 @@ import markWordsReviewed from "./wotd/markWordsReviewed";
 import addWOTD from "./admin/addWOTD";
 import forgotPassword from "./auth/forgotPassword";
 import confirmForgotPassword from "./auth/confirmForgotPassword";
+import resetPassword from "./auth/resetPassword";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -29,6 +30,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(addWOTD);
   server.register(forgotPassword);
   server.register(confirmForgotPassword);
+  server.register(resetPassword);
 };
 
 export default registerRoutes;
