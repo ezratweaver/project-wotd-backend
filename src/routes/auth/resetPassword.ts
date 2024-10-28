@@ -65,11 +65,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     },
   });
 
-  await setAuthenticationCookie({
-    userKey: userFromDb.userKey,
-    email: userFromDb.email,
-    reply,
-  });
+  if (userFromDb.emailVerified)
+    await setAuthenticationCookie({
+      userKey: userFromDb.userKey,
+      email: userFromDb.email,
+      reply,
+    });
 
   return reply.status(200).send();
 };
