@@ -12,7 +12,7 @@ export const generateEmailTokenCookie = async (
   email: string,
   reply: FastifyReply,
 ) => {
-  const otp = generateOTP(16);
+  const otp = generateOTP(+(process.env.OTP_LENGTH ?? 16));
 
   const tokenToSign: EmailTokenType = {
     token: otp,
