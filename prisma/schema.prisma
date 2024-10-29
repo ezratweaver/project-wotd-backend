@@ -39,3 +39,7 @@ model WordOfTheDay {
   date               DateTime
   usersLearned       UserLearned[]
 }
+
+model JWTBlacklist {
+  jwt String @id @unique
+}
