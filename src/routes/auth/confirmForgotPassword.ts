@@ -8,6 +8,7 @@ import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenReq
 import { $ref } from "../../app";
 import verifyToken from "../../utils/verifyToken";
 import prisma from "../../database";
+import { dateWithOffset } from "../../helper/dateHelpers";
 
 const url = "/confirm-forgot-password";
 const method = "POST";
@@ -43,8 +44,8 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   }
 
   const allowPasswordReset = await reply.jwtSign({
-    allowedToReset: true,
     email: userFromToken.email,
+    expires: dateWithOffset(1),
   });
 
   reply.setCookie("resetPassword", allowPasswordReset);

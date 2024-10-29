@@ -9,6 +9,7 @@ import fastifyCookie from "@fastify/cookie";
 import authHandler from "./utils/authHandler";
 import fastifyCors from "@fastify/cors";
 import { startDockerContainers } from "./docker";
+import prisma from "./database";
 
 export interface UserJWT {
   userKey: number;
@@ -20,7 +21,7 @@ declare module "fastify" {
     authenticate: any;
   }
   interface FastifyRequest {
-    decodeToken: (token: string) => any;
+    decodeToken: (token: string) => Promise<any | null>;
   }
 }
 
@@ -87,7 +88,15 @@ export const buildServer = async () => {
       authHandler(server, request, reply),
   );
 
-  server.decorateRequest("decodeToken", (token: string) => {
+  server.decorateRequest("decodeToken", async (token: string) => {
+    const isBlacklisted = !!(await prisma.jWTBlacklist.findUnique({
+      where: {
+        jwt: token,
+      },
+    }));
+
+    if (isBlacklisted) return null;
+
     return server.jwt.decode(token);
   });
 

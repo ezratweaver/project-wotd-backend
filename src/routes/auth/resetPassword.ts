@@ -41,16 +41,27 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
 
-  let verifiedToken: { allowedToReset: boolean; email: string };
+  let verifiedToken: {
+    email: string;
+    expires: Date;
+  } | null;
   try {
     verifiedToken = await request.decodeToken(unsignedResetPasswordCookie);
   } catch (err) {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
 
-  if (!verifiedToken.allowedToReset) {
+  if (!verifiedToken) return reply.status(401).send(invalidResetPasswordCookie);
+
+  if (new Date() > verifiedToken.expires) {
     return reply.status(401).send(invalidResetPasswordCookie);
   }
+
+  await prisma.jWTBlacklist.create({
+    data: {
+      jwt: unsignedResetPasswordCookie,
+    },
+  });
 
   const salt = randomBytes(16).toString("hex");
   const hashedPassword = hashSync(password + salt, 10);

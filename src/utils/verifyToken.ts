@@ -1,5 +1,6 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { EmailTokenType } from "../helper/generateEmailTokenCookie";
+import prisma from "../database";
 
 const invalidEmailToken = {
   error: "Email Token Invalid",
@@ -27,12 +28,14 @@ const verifyToken = async ({
     return reply.status(401).send(invalidEmailToken);
   }
 
-  let verifiedToken: EmailTokenType;
+  let verifiedToken: EmailTokenType | null;
   try {
     verifiedToken = await request.decodeToken(unsignedEmailCookie);
   } catch (err) {
     return reply.status(401).send(invalidEmailToken);
   }
+
+  if (!verifiedToken) return reply.status(401).send(invalidEmailToken);
 
   if (verifiedToken.token !== userGivenToken) {
     return reply.status(401).send(invalidEmailToken);
@@ -44,6 +47,12 @@ const verifyToken = async ({
       message: "Token to verify email has already expired.",
     });
   }
+
+  await prisma.jWTBlacklist.create({
+    data: {
+      jwt: unsignedEmailCookie,
+    },
+  });
 
   return verifiedToken;
 };
