@@ -7,9 +7,8 @@ import {
 import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenRequestBody";
 import { $ref } from "../../app";
 import prisma from "../../database";
-import { EmailTokenType } from "../../helper/generateEmailTokenCookie";
 import setAuthenticationCookie from "../../utils/setAuthenticationCookie";
-import verifyToken from "../../utils/verifyToken";
+import verifyToken, { invalidEmailToken } from "../../utils/verifyToken";
 
 const url = "/confirm-email-token";
 const method = "POST";
@@ -28,8 +27,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     emailCookie,
     userGivenToken: token,
     request,
-    reply,
   });
+
+  if (!verifiedToken) {
+    return reply.status(401).send(invalidEmailToken);
+  }
 
   const unverifiedUser = await prisma.user.findUnique({
     where: {

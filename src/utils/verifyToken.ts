@@ -2,7 +2,7 @@ import { FastifyReply, FastifyRequest } from "fastify";
 import { EmailTokenType } from "../helper/generateEmailTokenCookie";
 import prisma from "../database";
 
-const invalidEmailToken = {
+export const invalidEmailToken = {
   error: "Email Token Invalid",
   message: "Email token provided is invalid.",
 };
@@ -11,41 +11,36 @@ const verifyToken = async ({
   emailCookie,
   userGivenToken,
   request,
-  reply,
 }: {
   emailCookie: string | undefined;
   userGivenToken: string;
   request: FastifyRequest;
-  reply: FastifyReply;
-}): Promise<EmailTokenType> => {
+}): Promise<EmailTokenType | undefined> => {
   if (!emailCookie) {
-    return reply.status(401).send(invalidEmailToken);
+    return undefined;
   }
 
   const unsignedEmailCookie = request.unsignCookie(emailCookie).value;
 
   if (!unsignedEmailCookie) {
-    return reply.status(401).send(invalidEmailToken);
+    return undefined;
   }
 
   let verifiedToken: EmailTokenType | null;
   try {
     verifiedToken = await request.decodeToken(unsignedEmailCookie);
   } catch (err) {
-    return reply.status(401).send(invalidEmailToken);
+    return undefined;
   }
 
-  if (!verifiedToken) return reply.status(401).send(invalidEmailToken);
+  if (!verifiedToken) return undefined;
 
   if (verifiedToken.token !== userGivenToken) {
-    return reply.status(401).send(invalidEmailToken);
+    return undefined;
   }
 
   if (new Date() > verifiedToken.expires) {
-    return reply.status(401).send({
-      error: "Email Token Expired",
-      message: "Token to verify email has already expired.",
-    });
+    return undefined;
   }
 
   await prisma.jWTBlacklist.create({

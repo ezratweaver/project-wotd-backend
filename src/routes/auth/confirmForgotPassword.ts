@@ -6,7 +6,7 @@ import {
 } from "fastify";
 import ConfirmEmailTokenRequestBodyType from "../../schemas/ConfirmEmailTokenRequestBody";
 import { $ref } from "../../app";
-import verifyToken from "../../utils/verifyToken";
+import verifyToken, { invalidEmailToken } from "../../utils/verifyToken";
 import prisma from "../../database";
 import { dateWithOffset } from "../../helper/dateHelpers";
 
@@ -27,8 +27,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     emailCookie,
     userGivenToken: token,
     request,
-    reply,
   });
+
+  if (!verifiedToken) {
+    return reply.status(401).send(invalidEmailToken);
+  }
 
   const userFromToken = await prisma.user.findUnique({
     where: {
