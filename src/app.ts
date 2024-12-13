@@ -51,7 +51,7 @@ export const buildServer = async () => {
     throw new Error("Must have a APP_NAME in the '.env' file ");
   }
 
-  if (process.env.RUN_WITH_CONTAINERS) {
+  if (process.env.RUN_WITH_CONTAINERS?.toLowerCase() === "true") {
     await startDockerContainers();
   }
 
