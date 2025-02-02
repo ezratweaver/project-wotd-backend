@@ -2,8 +2,8 @@
   "name": "wotd-api",
   "version": "0.1",
   "scripts": {
-    "start": "nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
-    "start:prod": "node dist/app.js",
+    "start": "RUN_WITH_CONTAINERS=false node dist/app.js",
+    "dev": "RUN_WITH_CONTAINERS=true nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:prod": "prisma migrate deploy"
