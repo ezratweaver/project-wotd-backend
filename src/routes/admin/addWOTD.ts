@@ -33,7 +33,11 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const { password, word } = request.body as AddWOTDRequestBodyType;
 
-  if (!compareSync(password, process.env.ADMIN_PASSWORD ?? "")) {
+  if (!process.env.ADMIN_PASSWORD) {
+    return reply.status(404).send();
+  }
+
+  if (!compareSync(password, process.env.ADMIN_PASSWORD)) {
     console.warn(
       "/add-wotd authentication failed, did you forget your password?",
     );
