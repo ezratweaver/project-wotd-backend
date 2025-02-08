@@ -2,8 +2,8 @@
   "name": "wotd-api",
   "version": "0.1",
   "scripts": {
-    "start": "RUN_WITH_CONTAINERS=false node dist/app.js",
-    "dev": "RUN_WITH_CONTAINERS=true nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
+    "start": "NODE_ENV=production node dist/app.js",
+    "dev": "NODE_ENV=test nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:prod": "prisma migrate deploy"
@@ -14,6 +14,7 @@
   "dependencies": {
     "@aws-sdk/client-polly": "^3.675.0",
     "@aws-sdk/client-s3": "^3.675.0",
+    "@aws-sdk/client-ssm": "^3.744.0",
     "@aws-sdk/s3-request-presigner": "^3.675.0",
     "@fastify/cookie": "^9.3.1",
     "@fastify/cors": "^9.0.1",

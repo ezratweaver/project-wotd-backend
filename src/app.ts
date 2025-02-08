@@ -10,6 +10,7 @@ import authHandler from "./utils/authHandler";
 import fastifyCors from "@fastify/cors";
 import { startDockerContainers } from "./docker";
 import prisma from "./database";
+import getParametersFromAWS from "./utils/getParametersFromAWS";
 
 export interface UserJWT {
   userKey: number;
@@ -51,8 +52,10 @@ export const buildServer = async () => {
     throw new Error("Must have a APP_NAME in the '.env' file ");
   }
 
-  if (process.env.RUN_WITH_CONTAINERS?.toLowerCase() === "true") {
+  if (process.env.NODE_ENV?.toLowerCase() === "production") {
     await startDockerContainers();
+  } else {
+    await getParametersFromAWS();
   }
 
   const server = Fastify({
