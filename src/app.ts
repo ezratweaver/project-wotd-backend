@@ -42,6 +42,12 @@ const builtJsonSchemas = buildJsonSchemas(schemas);
 export const { $ref } = builtJsonSchemas;
 
 export const buildServer = async () => {
+  if (process.env.NODE_ENV?.toLowerCase() === "production") {
+    await getParametersFromAWS();
+  } else {
+    await startDockerContainers();
+  }
+
   if (!process.env.COOKIE_SECRET_KEY || !process.env.JWT_SECRET_KEY) {
     throw new Error(
       "Must have a COOKIE_SECRET_KEY and JWT_SECRET_KEY in the '.env' file.",
@@ -50,12 +56,6 @@ export const buildServer = async () => {
 
   if (!process.env.APP_NAME) {
     throw new Error("Must have a APP_NAME in the '.env' file ");
-  }
-
-  if (process.env.NODE_ENV?.toLowerCase() === "production") {
-    await startDockerContainers();
-  } else {
-    await getParametersFromAWS();
   }
 
   const server = Fastify({
