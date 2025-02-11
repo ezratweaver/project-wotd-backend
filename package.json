@@ -2,7 +2,7 @@
   "name": "wotd-api",
   "version": "0.1",
   "scripts": {
-    "start": "./scripts/get_parameters_from_aws.sh && NODE_ENV=production node dist/app.js",
+    "start": "bash -c '. ./scripts/get_parameters_from_aws.sh && NODE_ENV=production node dist/app.js'",
     "dev": "NODE_ENV=test nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
