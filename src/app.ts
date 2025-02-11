@@ -10,7 +10,6 @@ import authHandler from "./utils/authHandler";
 import fastifyCors from "@fastify/cors";
 import { startDockerContainers } from "./docker";
 import prisma from "./database";
-import getParametersFromAWS from "./utils/getParametersFromAWS";
 
 export interface UserJWT {
   userKey: number;
@@ -42,9 +41,7 @@ const builtJsonSchemas = buildJsonSchemas(schemas);
 export const { $ref } = builtJsonSchemas;
 
 export const buildServer = async () => {
-  if (process.env.NODE_ENV?.toLowerCase() === "production") {
-    await getParametersFromAWS();
-  } else {
+  if (process.env.NODE_ENV?.toLowerCase() === "test") {
     await startDockerContainers();
   }
 
