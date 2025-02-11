@@ -2,7 +2,6 @@ import { SSM } from "@aws-sdk/client-ssm";
 
 const ssmClient = new SSM({
   apiVersion: "2014-11-06",
-  region: process.env.AWS_REGION,
 });
 
 const environmentPath = "/project-wotd-backend/prod";
@@ -22,9 +21,9 @@ const getParametersFromAWS = async () => {
   }
 
   for (const parameter of parameters.Parameters) {
-    if (!parameter.Name || !!parameter.Value) {
+    if (!parameter.Name || !parameter.Value) {
       console.warn(
-        "Parameter retrieved did not have a defined Name or Value. Is parameter store setup correctly",
+        "Parameter retrieved did not have a defined Name or Value. Is parameter store setup correctly?",
       );
       console.warn({
         Name: parameter.Name,
