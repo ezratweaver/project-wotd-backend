@@ -2,25 +2,12 @@ import type { ExecaMethod } from "execa";
 
 type ExecaMethodType = ExecaMethod<{ verbose: "short" }>;
 
-const DB_DOCKER_IMAGE_NAME = process.env.DB_DOCKER_IMAGE_NAME;
-const DB_PORT = process.env.DB_PORT;
-const DB_PASSWORD = process.env.DB_PASSWORD;
-const SMTP4DEV_WEB_PORT = process.env.SMTP4DEV_WEB_PORT;
-const SMTP4DEV_SMTP_PORT = process.env.SMTP4DEV_SMTP_PORT;
-const SMTP4DEV_NAME = process.env.SMTP4DEV_NAME;
-
-if (
-  !DB_DOCKER_IMAGE_NAME ||
-  !DB_PORT ||
-  !DB_PASSWORD ||
-  !SMTP4DEV_WEB_PORT ||
-  !SMTP4DEV_NAME ||
-  !SMTP4DEV_SMTP_PORT
-) {
-  throw new Error(
-    "Must have a DB_DOCKER_IMAGE_NAME, DB_PORT, DB_PASSWORD, SMTP4DEV_WEB_PORT, SMTP4DEV_NAME, SMTP4DEV_SMTP_PORT in the '.env' file.",
-  );
-}
+const DB_DOCKER_IMAGE_NAME = process.env.DB_DOCKER_IMAGE_NAME ?? "";
+const DB_PORT = process.env.DB_PORT ?? "";
+const DB_PASSWORD = process.env.DB_PASSWORD ?? "";
+const SMTP4DEV_WEB_PORT = process.env.SMTP4DEV_WEB_PORT ?? "";
+const SMTP4DEV_SMTP_PORT = process.env.SMTP4DEV_SMTP_PORT ?? "";
+const SMTP4DEV_NAME = process.env.SMTP4DEV_NAME ?? "";
 
 const containerIsRunning = async (
   $: ExecaMethodType,
@@ -70,6 +57,19 @@ const startOrBuildContainer = async (
 };
 
 export const startDockerContainers = async () => {
+  if (
+    !DB_DOCKER_IMAGE_NAME ||
+    !DB_PORT ||
+    !DB_PASSWORD ||
+    !SMTP4DEV_WEB_PORT ||
+    !SMTP4DEV_NAME ||
+    !SMTP4DEV_SMTP_PORT
+  ) {
+    throw new Error(
+      "Must have a DB_DOCKER_IMAGE_NAME, DB_PORT, DB_PASSWORD, SMTP4DEV_WEB_PORT, SMTP4DEV_NAME, SMTP4DEV_SMTP_PORT in the '.env' file.",
+    );
+  }
+
   const { execa } = await import("execa");
   const $: ExecaMethodType = execa({ verbose: "short" });
 
