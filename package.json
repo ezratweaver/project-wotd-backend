@@ -2,7 +2,7 @@
   "name": "wotd-api",
   "version": "0.1",
   "scripts": {
-    "start": "bash -c '. ./scripts/get_parameters_from_aws.sh && NODE_ENV=production node dist/app.js'",
+    "start": "NODE_ENV=production node dist/app.js",
     "dev": "NODE_ENV=test nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
     "build": "tsc",
     "prisma:migrate": "prisma migrate dev",
@@ -30,7 +30,8 @@
     "mjml": "^4.15.3",
     "nodemailer": "^6.9.15",
     "swagger": "^0.7.5",
-    "zod": "^3.23.8"
+    "zod": "^3.23.8",
+    "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
@@ -39,7 +40,6 @@
     "@types/nodemailer": "^6.4.15",
     "execa": "^9.5.2",
     "nodemon": "^3.1.9",
-    "pino-pretty": "^13.0.0",
     "ts-node-dev": "^2.0.0",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
