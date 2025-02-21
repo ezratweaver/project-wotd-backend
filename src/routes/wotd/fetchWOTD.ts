@@ -20,19 +20,14 @@ const schema = {
 } as FastifySchema;
 
 const createPresignedGETUrl = ({ s3Key }: { s3Key: string }) => {
-  const { AWS_REGION, AWS_ACCESS_KEY, AWS_SECRET_KEY, AWS_BUCKET_NAME } =
-    process.env;
+  const { AWS_REGION, AWS_BUCKET_NAME } = process.env;
 
-  if (!AWS_REGION || !AWS_ACCESS_KEY || !AWS_SECRET_KEY || !AWS_BUCKET_NAME) {
+  if (!AWS_REGION || !AWS_BUCKET_NAME) {
     throw new Error("Missing environment variables required for AWS.");
   }
 
   const s3Client = new S3Client({
     region: AWS_REGION,
-    credentials: {
-      accessKeyId: AWS_ACCESS_KEY,
-      secretAccessKey: AWS_SECRET_KEY,
-    },
   });
 
   const command = new GetObjectCommand({

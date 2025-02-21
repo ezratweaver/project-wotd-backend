@@ -25,10 +25,6 @@ const schema = {
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const pollyClient = new PollyClient({
     region: process.env.AWS_REGION,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY ?? "",
-      secretAccessKey: process.env.AWS_SECRET_KEY ?? "",
-    },
   });
 
   const { password, word } = request.body as AddWOTDRequestBodyType;
