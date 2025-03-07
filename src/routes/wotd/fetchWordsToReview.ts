@@ -9,6 +9,10 @@ import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
 import { $ref } from "../../app";
 import { PrismaClient } from "@prisma/client";
 
+/*
+ * WARN: This endpoint is deprecated!
+ */
+
 const url = "/fetch-words-to-review";
 const method = "GET";
 const schema = {

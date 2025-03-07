@@ -7,6 +7,10 @@ import {
 import prisma from "../../database";
 import { queryWordsReadyForReview } from "./fetchWordsToReview";
 
+/*
+ * WARN: This endpoint is deprecated!
+ */
+
 const url = "/mark-words-reviewed";
 const method = "POST";
 const schema = {

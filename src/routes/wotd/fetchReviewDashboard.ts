@@ -8,6 +8,10 @@ import prisma from "../../database";
 import { $ref } from "../../app";
 import { isDateXDaysFromNowOrFarther } from "../../helper/dateHelpers";
 
+/*
+ * WARN: This endpoint is deprecated!
+ */
+
 const url = "/fetch-review-dashboard";
 const method = "GET";
 const schema = {
