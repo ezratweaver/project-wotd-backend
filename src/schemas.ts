@@ -14,6 +14,7 @@ import { AddWOTDRequestBody } from "./schemas/AddWOTDRequestBody";
 import { ForgotPasswordRequestBody } from "./schemas/ForgotPasswordRequestBody";
 import { ConfirmForgotPasswordRequestBody } from "./schemas/ConfirmForgotPasswordRequestBody";
 import { ResetPasswordRequestBody } from "./schemas/ResetPasswordRequestBody";
+import { CreateDeckRequestBody } from "./schemas/CreateDeckRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -32,6 +33,7 @@ const schemas = {
   ForgotPasswordRequestBody,
   ConfirmForgotPasswordRequestBody,
   ResetPasswordRequestBody,
+  CreateDeckRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {

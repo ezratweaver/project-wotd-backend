@@ -14,6 +14,7 @@ import addWOTD from "./admin/addWOTD";
 import forgotPassword from "./auth/forgotPassword";
 import confirmForgotPassword from "./auth/confirmForgotPassword";
 import resetPassword from "./auth/resetPassword";
+import createDeck from "./wotd/createDeck";
 
 const registerRoutes = (server: FastifyInstance) => {
   server.register(healthCheck);
@@ -31,6 +32,7 @@ const registerRoutes = (server: FastifyInstance) => {
   server.register(forgotPassword);
   server.register(confirmForgotPassword);
   server.register(resetPassword);
+  server.register(createDeck);
 };
 
 export default registerRoutes;
