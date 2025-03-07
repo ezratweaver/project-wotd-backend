@@ -15,6 +15,7 @@ model User {
   salt          String
   createdDate   DateTime      @default(now())
   learned       UserLearned[]
+  decks         Deck[]
   emailVerified Boolean       @default(false)
 }
 
@@ -26,6 +27,26 @@ model UserLearned {
   lastReviewed   DateTime?
   user           User?         @relation(fields: [userKey], references: [userKey])
   word           WordOfTheDay? @relation(fields: [wotdKey], references: [wotdKey])
+
+  @@unique([userKey, wotdKey])
+}
+
+model Deck {
+  deckKey Int        @id @default(autoincrement())
+  userKey Int
+  name    String
+  user    User?      @relation(fields: [userKey], references: [userKey])
+  words   DeckWord[]
+}
+
+model DeckWord {
+  deckWordKey Int           @id @default(autoincrement())
+  deckKey     Int
+  wotdKey     Int
+  Deck        Deck?         @relation(fields: [deckKey], references: [deckKey], onDelete: Cascade)
+  word        WordOfTheDay? @relation(fields: [wotdKey], references: [wotdKey])
+
+  @@unique([deckKey, wotdKey])
 }
 
 model WordOfTheDay {
@@ -38,6 +59,7 @@ model WordOfTheDay {
   usage              String
   date               DateTime
   usersLearned       UserLearned[]
+  DeckWords          DeckWord[]
 }
 
 model JWTBlacklist {
