@@ -15,6 +15,7 @@ import { ForgotPasswordRequestBody } from "./schemas/ForgotPasswordRequestBody";
 import { ConfirmForgotPasswordRequestBody } from "./schemas/ConfirmForgotPasswordRequestBody";
 import { ResetPasswordRequestBody } from "./schemas/ResetPasswordRequestBody";
 import { CreateDeckRequestBody } from "./schemas/CreateDeckRequestBody";
+import { AddWordToDeckRequestBody } from "./schemas/AddWordToDeckRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -34,6 +35,7 @@ const schemas = {
   ConfirmForgotPasswordRequestBody,
   ResetPasswordRequestBody,
   CreateDeckRequestBody,
+  AddWordToDeckRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
