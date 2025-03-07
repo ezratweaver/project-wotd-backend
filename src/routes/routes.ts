@@ -16,23 +16,29 @@ import confirmForgotPassword from "./auth/confirmForgotPassword";
 import resetPassword from "./auth/resetPassword";
 import createDeck from "./wotd/createDeck";
 
+const routes = [
+  healthCheck,
+  signUp,
+  login,
+  signOut,
+  fetchWOTD,
+  learnWOTD,
+  confirmEmailToken,
+  resendEmailToken,
+  fetchReviewDashboard,
+  fetchWordsToReview,
+  markWordsReviewed,
+  addWOTD,
+  forgotPassword,
+  confirmForgotPassword,
+  resetPassword,
+  createDeck,
+];
+
 const registerRoutes = (server: FastifyInstance) => {
-  server.register(healthCheck);
-  server.register(signUp);
-  server.register(login);
-  server.register(signOut);
-  server.register(fetchWOTD);
-  server.register(learnWOTD);
-  server.register(confirmEmailToken);
-  server.register(resendEmailToken);
-  server.register(fetchReviewDashboard);
-  server.register(fetchWordsToReview);
-  server.register(markWordsReviewed);
-  server.register(addWOTD);
-  server.register(forgotPassword);
-  server.register(confirmForgotPassword);
-  server.register(resetPassword);
-  server.register(createDeck);
+  for (const route of routes) {
+    server.register(route);
+  }
 };
 
 export default registerRoutes;
