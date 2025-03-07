@@ -9,7 +9,7 @@ datasource db {
 
 model User {
   userKey       Int           @id @default(autoincrement())
-  email         String        @unique
+  email         String        @unique @db.VarChar(255)
   firstName     String
   password      String
   salt          String
@@ -34,9 +34,11 @@ model UserLearned {
 model Deck {
   deckKey Int        @id @default(autoincrement())
   userKey Int
-  name    String
+  name    String     @db.VarChar(255)
   user    User?      @relation(fields: [userKey], references: [userKey])
   words   DeckWord[]
+
+  @@unique([userKey, name])
 }
 
 model DeckWord {
