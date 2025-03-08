@@ -41,10 +41,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     SELECT
       d."deckKey",
       d."name" AS "deckName",
-      CASE
-        WHEN dw."wotdKey" = ${wotd?.wotdKey ?? -1} THEN TRUE
-        ELSE FALSE
-      END AS "wordIncluded",
+      COALESCE(BOOL_OR(dw."wotdKey" = ${wotd?.wotdKey ?? -1}), FALSE) AS "wordIncluded",
       COUNT(dw."deckWordKey")::INTEGER AS "wordCount"
     FROM
       "Deck" d
@@ -53,7 +50,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     WHERE
       d."userKey" = ${userKey}
     GROUP BY
-      d."deckKey", d."name", dw."wotdKey";
+      d."deckKey", d."name";
   `;
 
   if (!word) {
