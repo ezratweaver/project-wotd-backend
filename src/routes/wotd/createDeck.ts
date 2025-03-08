@@ -21,13 +21,6 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
   const userKey = request.user.userKey;
 
-  if (deckName.length > 255) {
-    return reply.status(400).send({
-      error: "Deck name too long",
-      message: "Deck name must be <= 255 characters",
-    });
-  }
-
   const deckWithNameAlreadyExistsForUser = !!(await prisma.deck.findFirst({
     where: {
       name: deckName,
