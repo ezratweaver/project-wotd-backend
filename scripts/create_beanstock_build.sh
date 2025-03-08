@@ -2,4 +2,4 @@
 
 npm run build
 
-zip -r ../project-wotd-backend.zip * -x ".git/*" "node_modules/*" ".env"
+zip -r "../$(git rev-parse HEAD).zip" * -x ".git/*" "node_modules/*" ".env"
