@@ -28,7 +28,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   if (!wordExists) {
-    return reply.status(400).send({
+    return reply.status(404).send({
       error: "Word doesn't exist",
       message: "Word provided does not exist as a word of the day.",
     });
@@ -42,7 +42,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   });
 
   if (!deckExists) {
-    return reply.status(400).send({
+    return reply.status(404).send({
       error: "Deck doesn't exist",
       message: "Deck provided does not exist.",
     });
@@ -66,7 +66,7 @@ const addWordToDeck = async (fastify: FastifyInstance) => {
       body: $ref("AddWordToDeckRequestBody"),
       response: {
         201: $ref("GenericResponse"),
-        400: $ref("GenericResponse"),
+        404: $ref("GenericResponse"),
       },
     },
     preHandler: [fastify.authenticate],
