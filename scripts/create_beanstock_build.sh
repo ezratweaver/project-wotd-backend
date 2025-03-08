@@ -2,4 +2,4 @@
 
 npm run build
 
-zip -r "../$(git rev-parse HEAD).zip" * -x "node_modules/*" ".env"
+zip -r "../$(git rev-parse HEAD).zip" .git * -x "node_modules/*" ".env"
