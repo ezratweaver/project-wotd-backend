@@ -18,6 +18,8 @@ import { CreateDeckRequestBody } from "./schemas/CreateDeckRequestBody";
 import { AddWordToDeckRequestBody } from "./schemas/AddWordToDeckRequestBody";
 import { ListDecksRequestQuery } from "./schemas/ListDecksRequestQuery";
 import { ListDecksResponse } from "./schemas/ListDecksResponse";
+import { ListDeckRequestParams } from "./schemas/ListDeckRequestParams";
+import { ListDeckResponse } from "./schemas/ListDeckResponse";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -40,6 +42,8 @@ const schemas = {
   AddWordToDeckRequestBody,
   ListDecksRequestQuery,
   ListDecksResponse,
+  ListDeckRequestParams,
+  ListDeckResponse,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {

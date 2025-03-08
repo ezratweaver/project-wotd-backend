@@ -17,6 +17,7 @@ import resetPassword from "./auth/resetPassword";
 import createDeck from "./wotd/createDeck";
 import addWordToDeck from "./wotd/addWordToDeck";
 import listDecks from "./wotd/listDecks";
+import listDeck from "./wotd/listDeck";
 
 const routes = [
   healthCheck,
@@ -37,6 +38,7 @@ const routes = [
   createDeck,
   addWordToDeck,
   listDecks,
+  listDeck,
 ];
 
 const registerRoutes = (server: FastifyInstance) => {
