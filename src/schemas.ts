@@ -20,6 +20,7 @@ import { ListDecksRequestQuery } from "./schemas/ListDecksRequestQuery";
 import { ListDecksResponse } from "./schemas/ListDecksResponse";
 import { ListDeckRequestParams } from "./schemas/ListDeckRequestParams";
 import { ListDeckResponse } from "./schemas/ListDeckResponse";
+import { RenameDeckRequestBody } from "./schemas/RenameDeckRequestBody";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -44,6 +45,7 @@ const schemas = {
   ListDecksResponse,
   ListDeckRequestParams,
   ListDeckResponse,
+  RenameDeckRequestBody,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
