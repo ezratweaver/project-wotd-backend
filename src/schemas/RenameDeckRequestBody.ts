@@ -1,5 +1,5 @@
 import { z } from "zod";
-import safeIntegerSchema from "../utils/safeIntegerSchema";
+import safeIntegerSchema from "../utils/type_schemas/safeIntegerSchema";
 
 export const RenameDeckRequestBody = z.object({
   deckKey: safeIntegerSchema,
