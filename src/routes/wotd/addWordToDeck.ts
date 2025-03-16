@@ -48,14 +48,30 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  await prisma.deckWord.create({
-    data: {
-      deckKey,
+  const wordExistsInDeck = await prisma.deckWord.findFirst({
+    where: {
+      deckKey: deckExists.deckKey,
       wotdKey: wordExists.wotdKey,
     },
   });
 
-  return reply.status(201).send();
+  if (!wordExistsInDeck) {
+    await prisma.deckWord.create({
+      data: {
+        deckKey: deckExists.deckKey,
+        wotdKey: wordExists.wotdKey,
+      },
+    });
+  } else {
+    await prisma.deckWord.deleteMany({
+      where: {
+        deckKey: deckExists.deckKey,
+        wotdKey: wordExists.wotdKey,
+      },
+    });
+  }
+
+  return reply.status(200).send();
 };
 
 const addWordToDeck = async (fastify: FastifyInstance) => {
@@ -65,7 +81,7 @@ const addWordToDeck = async (fastify: FastifyInstance) => {
       ...schema,
       body: $ref("AddWordToDeckRequestBody"),
       response: {
-        201: $ref("GenericResponse"),
+        200: $ref("GenericResponse"),
         404: $ref("GenericResponse"),
       },
     },
