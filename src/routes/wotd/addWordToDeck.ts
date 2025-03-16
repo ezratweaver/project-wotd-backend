@@ -13,7 +13,8 @@ const method = "POST";
 const schema = {
   operationId: "addWordToDeck",
   tags: ["WOTD"],
-  summary: "Adds given word to a choosen deck created by the user.",
+  summary:
+    "Adds given word to a choosen deck created by the user. If the word is already on the deck, it removes it.",
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
