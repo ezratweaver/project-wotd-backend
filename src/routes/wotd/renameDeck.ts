@@ -17,13 +17,14 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { deckKey, deckName } = request.body as RenameDeckRequestBodyType;
+  const { oldDeckName, newDeckName } =
+    request.body as RenameDeckRequestBodyType;
 
   const userKey = request.user.userKey;
 
-  const deckExists = await prisma.deck.findUnique({
+  const deckExists = await prisma.deck.findFirst({
     where: {
-      deckKey,
+      name: oldDeckName,
       userKey,
     },
   });
@@ -35,12 +36,12 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  await prisma.deck.update({
+  await prisma.deck.updateMany({
     where: {
-      deckKey,
+      name: oldDeckName,
     },
     data: {
-      name: deckName,
+      name: newDeckName,
     },
   });
 
