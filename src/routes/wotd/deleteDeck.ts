@@ -8,7 +8,7 @@ import { $ref } from "../../app";
 import prisma from "../../database";
 import DeleteDeckRequestParamsType from "../../schemas/DeleteDeckRequestParams";
 
-const url = "/delete-deck/:deckKey";
+const url = "/delete-deck/:deckName";
 const method = "DELETE";
 const schema = {
   operationId: "deleteDeck",
@@ -17,13 +17,13 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { deckKey } = request.params as DeleteDeckRequestParamsType;
+  const { deckName } = request.params as DeleteDeckRequestParamsType;
 
   const userKey = request.user.userKey;
 
-  const deckExists = await prisma.deck.findUnique({
+  const deckExists = await prisma.deck.findFirst({
     where: {
-      deckKey,
+      name: deckName,
       userKey,
     },
   });
@@ -35,9 +35,9 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  await prisma.deck.delete({
+  await prisma.deck.deleteMany({
     where: {
-      deckKey,
+      name: deckName,
       userKey,
     },
   });
