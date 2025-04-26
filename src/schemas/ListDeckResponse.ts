@@ -6,6 +6,7 @@ export const ListDeckResponse = z.object({
     z.object({
       word: z.string(),
       definition: z.string(),
+      learned: z.boolean(),
     }),
   ),
 });
