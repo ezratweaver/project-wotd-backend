@@ -1,7 +1,8 @@
 import { z } from "zod";
+import varchar255Schema from "../utils/type_schemas/varchar255Schema";
 
 export const AddWordToDeckRequestBody = z.object({
-  deckKey: z.number(),
+  deckName: varchar255Schema,
   word: z.string(),
 });
 

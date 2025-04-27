@@ -18,7 +18,7 @@ const schema = {
 } as FastifySchema;
 
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
-  const { deckKey, word } = request.body as AddWordToDeckRequestBodyType;
+  const { deckName, word } = request.body as AddWordToDeckRequestBodyType;
 
   const userKey = request.user.userKey;
 
@@ -35,10 +35,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  const deckExists = await prisma.deck.findUnique({
+  const deckExists = await prisma.deck.findFirst({
     where: {
       userKey,
-      deckKey,
+      name: deckName,
     },
   });
 
