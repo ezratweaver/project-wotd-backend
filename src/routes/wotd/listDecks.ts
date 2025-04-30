@@ -37,6 +37,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     deckName: string;
     wordIncluded?: boolean;
     wordCount: number;
+    /*
+     * NOTE: This is actually safe from SQL injection, per:
+     * https://www.prisma.io/docs/orm/prisma-client/using-raw-sql/raw-queries#sql-injection-prevention
+     */
   }[] = await prisma.$queryRaw`
     SELECT
       d."deckKey",
