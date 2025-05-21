@@ -22,6 +22,7 @@ import { ListDeckRequestParams } from "./schemas/ListDeckRequestParams";
 import { ListDeckResponse } from "./schemas/ListDeckResponse";
 import { RenameDeckRequestBody } from "./schemas/RenameDeckRequestBody";
 import { DeleteDeckRequestParams } from "./schemas/DeleteDeckRequestParams";
+import { FetchLearnedWordsResponse } from "./schemas/FetchLearnedWordsResponse";
 
 const schemasDir = resolve(__dirname, "schemas");
 
@@ -48,6 +49,7 @@ const schemas = {
   ListDeckResponse,
   RenameDeckRequestBody,
   DeleteDeckRequestParams,
+  FetchLearnedWordsResponse,
 };
 
 if (readdirSync(schemasDir).length !== Object.values(schemas).length) {
