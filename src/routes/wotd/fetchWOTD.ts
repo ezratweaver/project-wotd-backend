@@ -71,9 +71,13 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
       ? {
           ...foundWord,
           learned: !!userLearned,
-          pronunciationUrl: await createPresignedGETUrl({
-            s3Key: foundWord.pronunciationS3Key,
-          }),
+          pronunciationUrl:
+            process.env.NODE_ENV == "test"
+              ? // Play a random sound if we're in a test environment
+                "http://commondatastorage.googleapis.com/codeskulptor-assets/Collision8-Bit.ogg"
+              : await createPresignedGETUrl({
+                  s3Key: foundWord.pronunciationS3Key,
+                }),
         }
       : undefined,
     wordPrevDay: previousDayWord > 0,
