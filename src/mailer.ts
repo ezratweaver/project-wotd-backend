@@ -25,10 +25,13 @@ const mailer = createTransport({
   host: NODEMAILER_HOST,
   port: +NODEMAILER_PORT,
   secure: NODEMAILER_SECURE,
-  auth: {
-    user: NODEMAILER_USERNAME,
-    pass: NODEMAILER_PASSWORD,
-  },
+  auth:
+    process.env.NODE_ENV == "test"
+      ? undefined
+      : {
+          user: NODEMAILER_USERNAME,
+          pass: NODEMAILER_PASSWORD,
+        },
 });
 
 export const sendEmail = (sendMailParams: Omit<Mail.Options, "from">) => {
