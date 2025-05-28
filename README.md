@@ -1,19 +1,50 @@
+<div align="center">
+
 # Project WOTD Backend
+
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Fastify](https://img.shields.io/badge/Fastify-000000?style=for-the-badge&logo=fastify&logoColor=white)](https://www.fastify.io/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Prisma](https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white)](https://www.prisma.io/)
+[![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
+
+</div>
+
+<div align="center">
 
 A robust backend API service built with Fastify, TypeScript, and PostgreSQL. This service provides the necessary APIs for the [project-wotd-mobile](https://github.com/ezratweaver/project-wotd-mobile) application.
 
+</div>
+
+## 📋 Table of Contents
+
+- [Features](#-features)
+- [Prerequisites](#-prerequisites)
+- [Development](#-development)
+- [Building for Production](#-building-for-production)
+- [API Documentation](#-api-documentation)
+- [Environment Variables](#-environment-variables)
+- [Contributing](#-contributing)
+
 ## 🚀 Features
 
-- RESTful API with Swagger documentation
-- JWT-based authentication
-- Email OTP verification
-- AWS S3 integration for file storage
-- AWS Polly integration for text-to-speech
-- PostgreSQL database with Prisma ORM
-- Email notifications using Nodemailer
-- TypeScript for type safety
-- Environment-based configuration
-- Automatic development environment with Docker and SMTP4DEV
+- 🔐 **Authentication & Security**
+  - JWT-based authentication
+  - Email OTP verification
+  - Environment-based configuration
+
+- 🎯 **Core Functionality**
+  - RESTful API with Swagger documentation
+  - PostgreSQL database with Prisma ORM
+  - TypeScript for type safety
+
+- 🔌 **Integrations**
+  - AWS S3 for file storage
+  - AWS Polly for text-to-speech
+  - Email notifications using Nodemailer
+
+- 🛠️ **Development Tools**
+  - Automatic development environment with Docker and SMTP4DEV
 
 ## 📋 Prerequisites
 
@@ -24,34 +55,34 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
 ## 🔧 Development
 
-1. Clone the repository:
-```bash
-git clone https://github.com/ezratweaver/project-wotd-backend
-cd project-wotd-backend
-```
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ezratweaver/project-wotd-backend
+   cd project-wotd-backend
+   ```
 
-2. Install dependencies:
-```bash
-npm install
-```
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-3. Set up environment variables:
-```bash
-cp example.env .env
-```
-Edit the `.env` file with your configuration values.
+3. **Set up environment variables:**
+   ```bash
+   cp example.env .env
+   ```
+   Edit the `.env` file with your configuration values.
 
-4. Set up the database:
-```bash
-npm run prisma:migrate
-```
+4. **Set up the database:**
+   ```bash
+   npm run prisma:migrate
+   ```
 
-5. Start the development server:
-```bash
-npm run dev
-```
+5. **Start the development server:**
+   ```bash
+   npm run dev
+   ```
 
-The API will be available at `http://localhost:3000`
+   The API will be available at `http://localhost:3000`
 
 ## 🏗️ Building for Production
 
@@ -62,10 +93,11 @@ Before building for production, ensure you have:
 4. A production SMTP server configured for Nodemailer
 5. Updated environment variables for production
 
-Build and package for Elastic Beanstalk:
+**Build and package for Elastic Beanstalk:**
 ```bash
 npm run build:eb
 ```
+
 This script will:
 1. Build the TypeScript project
 2. Create a static hash file with the current git commit hash
@@ -84,13 +116,15 @@ http://localhost:3000/documentation
 
 Key environment variables required:
 
-- `APP_NAME`: Application name
-- `COOKIE_SECRET_KEY`: Secret key for cookies
-- `JWT_SECRET_KEY`: Secret key for JWT tokens
-- `DB_URL`: PostgreSQL connection string
-- `AWS_REGION`: AWS region for S3 and Polly
-- `AWS_BUCKET_NAME`: S3 bucket name where AWS Polly-generated pronunciation files are stored
-- `NODEMAILER_*`: Email configuration
+| Variable | Description |
+|----------|-------------|
+| `APP_NAME` | Application name |
+| `COOKIE_SECRET_KEY` | Secret key for cookies |
+| `JWT_SECRET_KEY` | Secret key for JWT tokens |
+| `DB_URL` | PostgreSQL connection string |
+| `AWS_REGION` | AWS region for S3 and Polly |
+| `AWS_BUCKET_NAME` | S3 bucket name where AWS Polly-generated pronunciation files are stored |
+| `NODEMAILER_*` | Email configuration |
 
 See `example.env` for all required variables.
 
