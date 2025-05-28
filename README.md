@@ -28,20 +28,21 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
 ## 🚀 Features
 
-- 🔐 **Authentication & Security**
-  - JWT-based authentication
-  - Email OTP verification
-  - Environment-based configuration
-
-- 🎯 **Core Functionality**
+- 🎯 **Core Features**
+  - Complete CRUD operations for users to organize words
   - RESTful API with Swagger documentation
   - PostgreSQL database with Prisma ORM
   - TypeScript for type safety
+  - JWT-based authentication
+  - Email OTP verification
+  - Environment-based configuration
+  - Type-safe API with Zod validation
 
 - 🔌 **Integrations**
   - AWS S3 for file storage
   - AWS Polly for text-to-speech
   - Email notifications using Nodemailer
+  - MJML for beautiful, responsive email templates
 
 - 🛠️ **Development Tools**
   - Automatic development environment with Docker and SMTP4DEV
