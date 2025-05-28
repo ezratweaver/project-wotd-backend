@@ -48,36 +48,55 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
 ## 📋 Prerequisites
 
-- Node.js (v16 or higher)
+- Linux/WSL 2
+- Node.js LTS 22 (v22.x)
 - PostgreSQL
 - Docker (optional, for development)
 - AWS Account (for S3 and Polly services)
 
 ## 🔧 Development
 
-1. **Clone the repository:**
+1. **Install and setup NVM (Node Version Manager):**
+   ```bash
+   # For Arch Linux (using yay)
+   yay -S nvm
+
+   # For Ubuntu/Debian
+   curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
+
+   # For other Linux distributions, check your package manager or use the curl method above
+   
+   # Restart your terminal or source your shell config
+   source ~/.bashrc  # or source ~/.zshrc or source ~/.config/fish/config.fish
+   
+   # Install and use Node.js 22
+   nvm install 22
+   nvm use 22
+   ```
+
+2. **Clone the repository:**
    ```bash
    git clone https://github.com/ezratweaver/project-wotd-backend
    cd project-wotd-backend
    ```
 
-2. **Install dependencies:**
+3. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. **Set up environment variables:**
+4. **Set up environment variables:**
    ```bash
    cp example.env .env
    ```
    Edit the `.env` file with your configuration values.
 
-4. **Set up the database:**
+5. **Set up the database:**
    ```bash
    npm run prisma:migrate
    ```
 
-5. **Start the development server:**
+6. **Start the development server:**
    ```bash
    npm run dev
    ```
