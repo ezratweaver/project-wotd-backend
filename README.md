@@ -133,7 +133,7 @@ http://localhost:3000/documentation
 
 ## 🔐 Environment Variables
 
-Key environment variables required:
+Environment variables used in the application:
 
 | Variable | Description |
 |----------|-------------|
@@ -143,6 +143,21 @@ Key environment variables required:
 | `DB_URL` | PostgreSQL connection string |
 | `AWS_REGION` | AWS region for S3 and Polly |
 | `AWS_BUCKET_NAME` | S3 bucket name where AWS Polly-generated pronunciation files are stored |
-| `NODEMAILER_*` | Email configuration |
+| `NODEMAILER_FROM` | Email address to send from |
+| `NODEMAILER_HOST` | SMTP server host |
+| `NODEMAILER_PORT` | SMTP server port |
+| `NODEMAILER_SECURE` | Whether to use TLS (true/false) |
+| `NODEMAILER_USERNAME` | SMTP server username |
+| `NODEMAILER_PASSWORD` | SMTP server password |
+| `OTP_LENGTH` | Length of OTP code (default: 16) |
+| `ADMIN_PASSWORD` | Hashed password required for authentication to add a word of the day through the API |
+| `API_PORT` | Port for the API server (default: 3000) |
+| `API_HOST` | Host for the API server (default: 0.0.0.0) |
+| `DB_DOCKER_IMAGE_NAME` | Name of the PostgreSQL Docker container |
+| `DB_PORT` | PostgreSQL port |
+| `DB_PASSWORD` | PostgreSQL password |
+| `SMTP4DEV_WEB_PORT` | Port for SMTP4DEV web interface |
+| `SMTP4DEV_SMTP_PORT` | Port for SMTP4DEV SMTP server |
+| `SMTP4DEV_NAME` | Name of the SMTP4DEV Docker container |
 
-See `example.env` for all required variables. 
+See `example.env` for example values. 
