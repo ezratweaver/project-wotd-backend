@@ -5,6 +5,7 @@
     "start": "NODE_ENV=production node dist/app.js",
     "dev": "NODE_ENV=test nodemon --watch 'src/**' --ext 'ts,json' --exec 'tsx src/app.ts'",
     "build": "tsc",
+    "build:eb": "bash scripts/create_beanstock_build.sh",
     "prisma:migrate": "prisma migrate dev",
     "prisma:migrate:prod": "prisma migrate deploy"
   },
