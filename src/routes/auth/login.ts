@@ -20,11 +20,6 @@ const schema = {
     "Authenitcates the user, and gives a cookie with a JWT for authentication",
 } as FastifySchema;
 
-const invalidUserNameOrPassword = {
-  error: "Bad Authentication",
-  message: "Email or Password is invalid.",
-};
-
 const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const requestBody = request.body as LoginRequestBodyType;
 
@@ -41,7 +36,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   const user = await prisma.user.findUnique({ where: { email } });
 
   if (!user) {
-    return reply.status(401).send(invalidUserNameOrPassword);
+    return reply.status(401).send({
+      error: "Bad Authentication",
+      message: "Invalid email or password.",
+    });
   }
 
   if (!user.emailVerified) {
@@ -53,8 +51,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
 
     return reply.status(403).send({
       error: "Email Not Verified",
-      message:
-        "Email for this user is not verified. An email has been sent for verification.",
+      message: "Please verify your email address. A verification email has been sent.",
     });
   }
 
@@ -73,7 +70,10 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
     });
   }
 
-  return reply.status(401).send(invalidUserNameOrPassword);
+  return reply.status(401).send({
+    error: "Bad Authentication",
+    message: "Invalid email or password.",
+  });
 };
 
 const login = async (fastify: FastifyInstance) => {

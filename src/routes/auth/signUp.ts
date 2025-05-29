@@ -31,7 +31,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   if (existingUser) {
     return reply.status(409).send({
       error: "Email In Use",
-      message: "Email is already in use.",
+      message: "This email address is already registered.",
     });
   }
 

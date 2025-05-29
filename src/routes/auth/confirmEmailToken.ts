@@ -42,14 +42,14 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   if (!unverifiedUser) {
     return reply.status(401).send({
       error: "Non Existing User",
-      message: "User with email from token does not exist.",
+      message: "Invalid verification token.",
     });
   }
 
   if (unverifiedUser.emailVerified) {
     return reply.status(401).send({
       error: "Email Already Verified",
-      message: "This email has already been verified.",
+      message: "Email already verified.",
     });
   }
 

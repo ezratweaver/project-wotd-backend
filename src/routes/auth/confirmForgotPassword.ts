@@ -42,7 +42,7 @@ const handler = async (request: FastifyRequest, reply: FastifyReply) => {
   if (!userFromToken) {
     return reply.status(404).send({
       error: "User Not Found",
-      message: "The user associated with this token was not found.",
+      message: "Invalid token.",
     });
   }
 
