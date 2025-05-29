@@ -1,18 +1,34 @@
 import { FastifyError, FastifyReply, FastifyRequest } from "fastify";
 import { unauthorizedError } from "./authHandler";
 
+const sanitizeErrorMessage = (error: FastifyError) => {
+  if (process.env.NODE_ENV !== "test") {
+    switch (error.code) {
+      case "FST_ERR_VALIDATION":
+        return "Invalid request data provided.";
+      case "FAST_JWT_MALFORMED":
+      case "FAST_JWT_INVALID_SIGNATURE":
+        return "Invalid authentication token.";
+      default:
+        return "An unexpected error occurred.";
+    }
+  }
+  return error.message;
+};
+
 const errorHandler = (
   error: FastifyError,
   _: FastifyRequest,
   reply: FastifyReply,
 ) => {
-  console.log(error);
+  // Always log the full error for debugging
+  console.error(error);
 
   switch (error.code) {
     case "FST_ERR_VALIDATION":
       return reply.status(400).send({
         error: "Bad Request",
-        message: error.message,
+        message: sanitizeErrorMessage(error),
       });
     case "FAST_JWT_MALFORMED":
     case "FAST_JWT_INVALID_SIGNATURE":
@@ -20,7 +36,7 @@ const errorHandler = (
     default:
       return reply.status(500).send({
         error: "Service failed",
-        message: "A service could not be completed.",
+        message: sanitizeErrorMessage(error),
       });
   }
 };
