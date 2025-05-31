@@ -125,6 +125,8 @@ To deploy the application:
 
 3. Upload the generated zip file to your Elastic Beanstalk environment
 
+Database migrations will be automatically applied during deployment.
+
 ## 📚 API Documentation
 
 Once the server is running, you can access the Swagger documentation at:
