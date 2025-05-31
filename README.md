@@ -23,7 +23,6 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 - [Development](#-development)
 - [Building for Production](#%EF%B8%8F-building-for-production)
 - [API Documentation](#-api-documentation)
-- [Environment Variables](#-environment-variables)
 
 ## 🚀 Features
 
@@ -143,34 +142,3 @@ Once the server is running, you can access the Swagger documentation at:
 ```
 http://localhost:3000/documentation
 ```
-
-## 🔐 Environment Variables
-
-Environment variables used in the application:
-
-| Variable               | Description                                                                                                         |
-| ---------------------- | ------------------------------------------------------------------------------------------------------------------- |
-| `APP_NAME`             | Application name used in email templates and system identification                                                  |
-| `COOKIE_SECRET_KEY`    | Secret key used to sign and verify cookies for authentication                                                       |
-| `JWT_SECRET_KEY`       | Secret key used to sign and verify JWT tokens for user sessions                                                     |
-| `DB_URL`               | PostgreSQL connection string in the format: `postgresql://user:password@host:port/database?schema=public`           |
-| `AWS_REGION`           | AWS region where S3 bucket and Polly service are located                                                            |
-| `AWS_BUCKET_NAME`      | S3 bucket name where AWS Polly-generated pronunciation files are stored                                             |
-| `NODEMAILER_FROM`      | Email address that will appear as the sender for all system emails                                                  |
-| `NODEMAILER_HOST`      | SMTP server hostname for sending emails                                                                             |
-| `NODEMAILER_PORT`      | SMTP server port number                                                                                             |
-| `NODEMAILER_SECURE`    | Whether to use TLS for SMTP connection (true/false)                                                                 |
-| `NODEMAILER_USERNAME`  | SMTP server username for authentication                                                                             |
-| `NODEMAILER_PASSWORD`  | SMTP server password for authentication                                                                             |
-| `OTP_LENGTH`           | Length of One-Time Password codes sent for email verification (default: 16)                                         |
-| `ADMIN_PASSWORD`       | Hashed password required for authentication to add a word of the day through the API (Use scripts/hash_password.js) |
-| `API_PORT`             | Port number for the API server (default: 3000)                                                                      |
-| `API_HOST`             | Host address for the API server (default: 0.0.0.0)                                                                  |
-| `DB_DOCKER_IMAGE_NAME` | Name of the PostgreSQL Docker container for local development                                                       |
-| `DB_PORT`              | PostgreSQL port number for local development                                                                        |
-| `DB_PASSWORD`          | PostgreSQL password for local development                                                                           |
-| `SMTP4DEV_WEB_PORT`    | Port number for SMTP4DEV web interface in local development                                                         |
-| `SMTP4DEV_SMTP_PORT`   | Port number for SMTP4DEV SMTP server in local development                                                           |
-| `SMTP4DEV_NAME`        | Name of the SMTP4DEV Docker container for local development                                                         |
-
-See `example.env` for example values.
