@@ -21,8 +21,9 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 - [Features](#-features)
 - [Prerequisites](#-prerequisites)
 - [Development](#-development)
-- [Building for Production](#%EF%B8%8F-building-for-production)
+- [Production](#-production)
 - [API Documentation](#-api-documentation)
+- [Infrastructure](#-infrastructure)
 
 ## 🚀 Features
 
@@ -111,29 +112,18 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
    The API will be available at `http://localhost:3000`
 
-## 🏗️ Building for Production
+## 🏗️ Production
 
-Before building for production, ensure you have:
+To deploy the application:
 
-1. An AWS account with Elastic Beanstalk configured
-2. An IAM user with permissions for AWS Polly and S3
-3. A production PostgreSQL database URL
-4. A production SMTP server configured for Nodemailer
-5. Updated environment variables for production
+1. Build the infrastructure stack using [project-wotd-infra](https://github.com/ezratweaver/project-wotd-infra)
+2. Build and package the application:
 
-**Build and package for Elastic Beanstalk:**
+   ```bash
+   npm run build:eb
+   ```
 
-```bash
-npm run build:eb
-```
-
-This script will:
-
-1. Build the TypeScript project
-2. Create a static hash file with the current git commit hash
-3. Create a zip file named with the commit hash, excluding node_modules and .env files
-
-The resulting zip file will be created in the parent directory and is ready for Elastic Beanstalk deployment.
+3. Upload the generated zip file to your Elastic Beanstalk environment
 
 ## 📚 API Documentation
 
