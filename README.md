@@ -18,35 +18,11 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
 ## 📋 Table of Contents
 
-- [Features](#-features)
 - [Prerequisites](#-prerequisites)
 - [Development](#-development)
 - [Production](#-production)
 - [API Documentation](#-api-documentation)
 - [Infrastructure](#-infrastructure)
-
-## 🚀 Features
-
-- 🎯 **Core Features**
-
-  - Complete CRUD operations for users to organize words
-  - RESTful API with Swagger documentation
-  - PostgreSQL database with Prisma ORM
-  - TypeScript for type safety
-  - JWT-based authentication
-  - Email OTP verification
-  - Environment-based configuration
-  - Type-safe API with Zod validation
-
-- 🔌 **Integrations**
-
-  - AWS S3 for file storage
-  - AWS Polly for text-to-speech
-  - Email notifications using Nodemailer
-  - MJML for beautiful, responsive email templates
-
-- 🛠️ **Development Tools**
-  - Automatic development environment with Docker and SMTP4DEV
 
 ## 📋 Prerequisites
 
@@ -98,19 +74,26 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
    Edit the `.env` file with your configuration values.
 
-5. **Set up the database:**
-
-   ```bash
-   npm run prisma:migrate
-   ```
-
-6. **Start the development server:**
+5. **Start the development server:**
 
    ```bash
    npm run dev
    ```
 
+   This will:
+   - Start the API server
+   - Create/Launch a PostgreSQL database in Docker
+   - Start an SMTP development server for email testing
+   
    The API will be available at `http://localhost:3000`
+
+6. **Run database migrations:**
+
+   ```bash
+   npm run prisma:migrate
+   ```
+
+   This will create and apply the database schema.
 
 ## 🏗️ Production
 
