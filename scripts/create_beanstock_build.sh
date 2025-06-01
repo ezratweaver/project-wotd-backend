@@ -13,4 +13,4 @@ const getHashStatic = () => "$COMMIT_HASH";
 exports.default = getHashStatic;
 EOF
 
-zip -r "../$COMMIT_HASH.zip" * -x "node_modules/*" ".env"
+zip -r "../$COMMIT_HASH.zip" * .ebextensions -x "node_modules/*" ".env"
