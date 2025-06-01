@@ -22,7 +22,6 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 - [Development](#-development)
 - [Production](#%EF%B8%8F-production)
 - [API Documentation](#-api-documentation)
-- [Infrastructure](#-infrastructure)
 
 ## 📋 Prerequisites
 
