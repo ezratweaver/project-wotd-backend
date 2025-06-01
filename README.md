@@ -20,7 +20,7 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
 
 - [Prerequisites](#-prerequisites)
 - [Development](#-development)
-- [Production](#-production)
+- [Production](#%EF%B8%8F-production)
 - [API Documentation](#-api-documentation)
 - [Infrastructure](#-infrastructure)
 
@@ -81,10 +81,11 @@ A robust backend API service built with Fastify, TypeScript, and PostgreSQL. Thi
    ```
 
    This will:
+
    - Start the API server
    - Create/Launch a PostgreSQL database in Docker
    - Start an SMTP development server for email testing
-   
+
    The API will be available at `http://localhost:3000`
 
 6. **Run database migrations:**
